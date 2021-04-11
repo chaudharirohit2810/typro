@@ -1,5 +1,19 @@
+:root {
+  /* --bg-color: #0e0e11; */
+  --bg-color: #2d323b;
+  /* --card-color: #18181b; */
+  --card-color: #20232b;
+  --subtitle-color: rgb(202, 202, 202);
+  --text-color: rgb(238, 238, 238);
+  --button-text-color: #202020;
+}
+
 .App {
-  text-align: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 .App-logo {
@@ -35,4 +49,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.main__button {
+  padding: 10px 20px;
+  background-color: var(--text-color);
+  color: var(--button-text-color);
+  text-decoration: none;
+  border-radius: 5px;
+  display: inline-flex;
+  font-size: 16px;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 0.5rem; */
 }

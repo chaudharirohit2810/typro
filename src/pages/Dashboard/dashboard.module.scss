@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  //   justify-content: center;
+  padding-top: 5rem;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px auto;
+  max-width: 70rem;
+  width: 95vw;
+}
+
+.title {
+  font-size: clamp(30px, 3.5vw, 50px);
+  text-align: center;
+  margin: 0;
+  //   margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 2rem;
+}
+
+.dashboard_card {
+  margin: 1rem;
+  flex: 1;
+}
