@@ -11,7 +11,8 @@ const TypingTestCard = (props) => {
       <h1 style={{ margin: 0, paddingLeft: 0 }}>{props.title}</h1>
       <p
         style={{
-          fontSize: "18px",
+          fontSize: "20px",
+          // letterSpacing: "1.15px",
           lineHeight: 1.6,
           color: "var(--subtitle-color)",
         }}
