@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import { DashBoard, TypingTest } from "./pages";
+import { DashBoard, TypingTest, Login} from "./pages";
+
 function App() {
   return (
     <Router>
