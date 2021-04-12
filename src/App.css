@@ -63,3 +63,17 @@
   align-items: center;
   /* margin-top: 0.5rem; */
 }
+
+.main__input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--text-color);
+  color: var(--text-color);
+  padding: 10px 5px 5px;
+}
+
+.main__input:focus {
+  border-bottom: 1px solid var(--text-color);
+  /* border: none; */
+  outline: none;
+}
