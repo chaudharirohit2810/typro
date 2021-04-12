@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import Card from "../../components/Card";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -39,6 +41,7 @@ export default function Login() {
         }}
       >
         <h1 style={{ margin: "0", padding: "0", marginBottom: "1.5rem" }}>
+          <FontAwesomeIcon icon={faUser} style={{ marginRight: "10px" }} />
           Login
         </h1>
         <Form onSubmit={handleSubmit}>
@@ -76,8 +79,6 @@ export default function Login() {
             />
           </Form.Group>
           <Button
-            // block
-            // size="lg"
             type="submit"
             style={{
               marginTop: "1.5rem",
@@ -86,11 +87,16 @@ export default function Login() {
               border: "none",
               width: "125px",
               padding: "8px 10px",
+              cursor: "pointer",
             }}
             disabled={!validateForm()}
             className="main__button"
           >
             Login
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              style={{ marginLeft: "10px", fontSize: "18px" }}
+            />
           </Button>
           <Link
             to="/"
