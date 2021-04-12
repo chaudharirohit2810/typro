@@ -6,7 +6,7 @@ import { faKeyboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MainTypingTester = () => {
-  const testTime = 60;
+  const testTime = 10000;
   const typer = useRef(null);
   const [speed, setspeed] = useState(0);
   const [
@@ -21,45 +21,53 @@ const MainTypingTester = () => {
   const [wrongTypes, setWrongTypes] = useState(0);
   const [pressedKey, _setPressedKey] = usePressedKey();
 
-  const para =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis\
-  voluptates ea odio molestiae officiis qui voluptate? Accusamus\
-  architecto voluptatem quia eveniet quis. Unde nisi et assumenda\
-  ducimus laboriosam exercitationem! Ex nihil mollitia ullam eveniet\
-  optio commodi praesentium dolor vel dolorum ipsa unde enim est ipsum\
-  dignissimos vero fugiat tenetur, corrupti earum. Quos fugiat aut\
-  expedita vitae velit porro magni sunt neque possimus ratione!\
-  Similique dolores consequatur necessitatibus explicabo. Molestiae,\
-  facere? Adipisci provident eos ipsa optio velit voluptates aliquid,\
-  molestiae officiis. Consequuntur temporibus excepturi veritatis dolor,\
-  vero enim accusantium illum repellendus nam. Ut ad, unde cupiditate\
-  fuga enim veritatis quis vero?";
   // const para =
-  // "export function push(heap: Heap, node: Node): void {\nconst index = heap.length;\nheap.push(node);\nsiftUp(heap, node, index);\n}";
+  //   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis\
+  // voluptates ea odio molestiae officiis qui voluptate? Accusamus\
+  // architecto voluptatem quia eveniet quis. Unde nisi et assumenda\
+  // ducimus laboriosam exercitationem! Ex nihil mollitia ullam eveniet\
+  // optio commodi praesentium dolor vel dolorum ipsa unde enim est ipsum\
+  // dignissimos vero fugiat tenetur, corrupti earum. Quos fugiat aut\
+  // expedita vitae velit porro magni sunt neque possimus ratione!\
+  // Similique dolores consequatur necessitatibus explicabo. Molestiae,\
+  // facere? Adipisci provident eos ipsa optio velit voluptates aliquid,\
+  // molestiae officiis. Consequuntur temporibus excepturi veritatis dolor,\
+  // vero enim accusantium illum repellendus nam. Ut ad, unde cupiditate\
+  // fuga enim veritatis quis vero?";
+  const para =
+    "export function push(heap: Heap, node: Node): void {\nconst index = heap.length;\nheap.push(node);\nsiftUp(heap, node, index);\n}";
 
-  // const getFormattedContent = (data) => {
-  //   let totalIndex = 0;
-  //   return data.split("\n").map((v) => {
-  //     var item = (
-  //       <>
-  //         {totalIndex < correctIndex && (
-  //           <span style={{ color: "rgb(0, 253, 177)" }}>
-  //             {v.substr(0, Math.min(correctIndex, v.length))}
-  //           </span>
-  //         )}
-  //         {totalIndex < wrongTypes && (
-  //           <span style={{ color: "rgb(255, 100, 25)" }}>
-  //             {v.substr(correctIndex, typedIndex - correctIndex)}
-  //           </span>
-  //         )}
-  //         <span>{v.substr(typedIndex, para.length)}</span>
-  //         <br></br>
-  //       </>
-  //     );
-  //     totalIndex += v.length;
-  //     return item;
-  //   });
-  // };
+  const getFormattedContent = (data) => {
+    let totalIndex = 0;
+    console.log(data);
+    const correctString = data.substr(0, correctIndex);
+    const wrongString = data.substr(correctIndex, typedIndex - correctIndex);
+    const remainingString = data.substr(typedIndex, para.length - typedIndex);
+    console.log(correctString, wrongString, remainingString);
+    var item = (
+      <>
+        {correctString.split("\n").map((v, index) => (
+          <>
+            <span style={{ color: "rgb(0, 253, 177)" }}>{v}</span>
+            {index !== correctString.split("\n").length - 1 && <br />}
+          </>
+        ))}
+        {wrongString.split("\n").map((v, index) => (
+          <>
+            <span style={{ color: "rgb(255, 100, 25)" }}>{v}</span>
+            {index !== wrongString.split("\n").length - 1 && <br />}
+          </>
+        ))}
+        {remainingString.split("\n").map((v) => (
+          <>
+            <span>{v}</span>
+            <br />
+          </>
+        ))}
+      </>
+    );
+    return item;
+  };
 
   useEffect(() => {
     if (countDownStarted) {
@@ -133,33 +141,16 @@ const MainTypingTester = () => {
               style={{ fontSize: 20, lineHeight: 1.7 }}
               onKeyDown={(e) => console.log(e)}
             >
-              {/* {getFormattedContent(para)} */}
-              <span style={{ color: "rgb(0, 253, 177)" }}>
-                {/* {para
-                  .substr(0, correctIndex)
-                  .split("\n")
-                  .map((v) => (
-                    <span style={{ display: "block" }}>{v}</span>
-                  ))} */}
+              {getFormattedContent(para)}
+              {/* <span style={{ color: "rgb(0, 253, 177)" }}>
                 {para.substr(0, correctIndex)}
-              </span>
-              {correctIndex <= typedIndex && (
+              </span> */}
+              {/* {correctIndex <= typedIndex && (
                 <span style={{ color: "rgb(255, 100, 25)" }}>
                   {para.substr(correctIndex, typedIndex - correctIndex)}
                 </span>
-              )}
-              <span>
-                {/* {para
-                  .substr(typedIndex, para.length - typedIndex)
-                  .split("\n")
-                  .map((v) => (
-                    <>
-                      <span>{v}</span>
-                      <br />
-                    </>
-                  ))} */}
-                {para.substr(typedIndex, para.length - typedIndex)}
-              </span>
+              )} */}
+              {/* <span>{para.substr(typedIndex, para.length - typedIndex)}</span> */}
             </p>
           </Card>
           <Card
