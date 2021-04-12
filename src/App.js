@@ -8,6 +8,8 @@ function App() {
         <Switch>
           <Route exact path="/dashboard" component={DashBoard} />
           <Route exact path="/typingtest" component={TypingTest} />
+          <Route exact path="/login" component={Login} />
+          
         </Switch>
       </div>
     </Router>
