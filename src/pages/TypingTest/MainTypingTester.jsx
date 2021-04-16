@@ -20,6 +20,7 @@ const MainTypingTester = () => {
   const [accuracy, setAccuracy] = useState(100);
   const [wrongTypes, setWrongTypes] = useState(0);
   const [pressedKey, _] = usePressedKey();
+  const [speedData, setSpeedData] = useState([]);
 
   const para =
     "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
@@ -55,6 +56,17 @@ const MainTypingTester = () => {
 
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
+      console.log(speedData);
+      // speedData[60 - remainingTime] = speed;
+      setSpeedData((prev) => {
+        prev.push({ time: `${60 - remainingTime} sec`, speed: speed });
+        return prev;
+      });
+    }
+  }, [remainingTime]);
+
+  useEffect(() => {
+    if (countDownStarted && correctIndex < para.length) {
       // console.log({ pressedKey, paraKey });
       if (pressedKey.length === 0) {
         return;
@@ -69,6 +81,7 @@ const MainTypingTester = () => {
         "CapsLock",
         "",
       ];
+
       if (ignoreKeys.find((v) => v === pressedKey)) {
         return;
       }
@@ -132,7 +145,7 @@ const MainTypingTester = () => {
     >
       {remainingTime === 0 || correctIndex >= para.length ? (
         <>
-          <TestEnded speed={speed} />
+          <TestEnded speed={speed} data={speedData} />
         </>
       ) : (
         <div
