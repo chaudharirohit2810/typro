@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Style from "./dashboard.module.scss";
 import DashBoardCard from "./DashboardCard";
 import {
@@ -9,10 +10,45 @@ import {
   faTachometerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import config from "../../config";
+import TypingLoader from "./TypingLoader";
 
 const Dashboard = () => {
-  const desc =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, quo utillo alias laudantium unde eos velit mollitia repudiandae sequi.";
+  const [loading, setLoading] = useState(true);
+  const his = useHistory();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`${config.BACKEND_URL}/user/verify`, {
+        headers: {
+          token,
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err.message);
+        his.replace("/login");
+      });
+  }, []);
+  if (loading) {
+    return (
+      <div
+        className={Style.container}
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {/* <h1>Loading....</h1> */}
+        <TypingLoader />
+      </div>
+    );
+  }
   return (
     <div className={Style.container}>
       <FontAwesomeIcon icon={faKeyboard} size="5x" />

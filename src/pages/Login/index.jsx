@@ -6,18 +6,35 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import config from "../../config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const his = useHistory();
+
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return username.length > 0 && password.length > 0;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("Wow");
+    axios
+      .post(`${config.BACKEND_URL}/user/login`, { username, password })
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+        toast.dark("Login successful! Redirecting to main page");
+        his.replace("/");
+      })
+      .catch((err) => {
+        toast.error("Invalid username or password", { autoClose: 3000 });
+      });
   }
 
   return (
@@ -45,19 +62,19 @@ export default function Login() {
           Login
         </h1>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="email">
+          <Form.Group controlId="name">
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
-              Email:{" "}
+              Username:{" "}
             </Form.Label>
             <br></br>
             <Form.Control
               autoFocus
-              type="email"
+              type="name"
               style={{ width: "90%" }}
               className="main__input"
-              placeholder="Enter email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
           <Form.Group
@@ -109,8 +126,15 @@ export default function Login() {
             Not a User? Register
           </Link>
         </Form>
-        {/* </div> */}
       </Card>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+      />
     </div>
   );
 }
