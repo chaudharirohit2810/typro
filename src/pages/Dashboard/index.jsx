@@ -12,7 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import config from "../../config";
-import TypingLoader from "./TypingLoader";
+import TypingLoader from "../../components/TypingLoader";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -33,21 +33,9 @@ const Dashboard = () => {
         his.replace("/login");
       });
   }, []);
+
   if (loading) {
-    return (
-      <div
-        className={Style.container}
-        style={{
-          height: "90vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {/* <h1>Loading....</h1> */}
-        <TypingLoader />
-      </div>
-    );
+    return <TypingLoader msg={"Authenticating your account..."} />;
   }
   return (
     <div className={Style.container}>
@@ -104,7 +92,7 @@ const Dashboard = () => {
           desc={
             "Monitor your progress over the period to check how you have improved your typing speed and compare your stats with others"
           }
-          link="/"
+          link="/stats"
           linkTitle="Checkout stats"
           icon={faArrowRight}
         />

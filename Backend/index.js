@@ -6,13 +6,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
-const bodyParser = require("body-parser");
-const UserRouter = require("./Routes/User");
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/user", UserRouter);
+const routes = ["user", "stats"];
+
+routes.map((route) => {
+  app.use(`/api/${route}`, require(`./Routes/${route}`));
+});
 
 mongoose
   .connect(process.env.MONGO_URI, {

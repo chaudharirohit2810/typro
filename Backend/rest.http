@@ -18,3 +18,25 @@ Content-Type: application/json
     "email": "123@12.com",
     "name": "Rohit Chaudhari"
 }
+
+### GET all the stats
+GET http://localhost:4000/api/stats/
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0MiIsInBhc3N3b3JkIjoiMTIzNDUiLCJpZCI6IjYwN2E3YmQwYzAxNjEyMjZkOWFhYmQ3ZCIsImlhdCI6MTYxODYzOTg1MCwiZXhwIjoxNjE4ODU1ODUwfQ.RYou2-1xNAwibonE2S7b3HwvyKHMEAY6Uqf7WArsR7o
+
+
+### Delete the stat
+DELETE http://localhost:4000/api/stats/607a7d694b2e9a293e81ea7f
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0MiIsInBhc3N3b3JkIjoiMTIzNDUiLCJpZCI6IjYwN2E3YmQwYzAxNjEyMjZkOWFhYmQ3ZCIsImlhdCI6MTYxODYzOTg1MCwiZXhwIjoxNjE4ODU1ODUwfQ.RYou2-1xNAwibonE2S7b3HwvyKHMEAY6Uqf7WArsR7o
+
+
+### POST the stat
+POST http://localhost:4000/api/stats/
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0MiIsInBhc3N3b3JkIjoiMTIzNDUiLCJpZCI6IjYwN2E3YmQwYzAxNjEyMjZkOWFhYmQ3ZCIsImlhdCI6MTYxODYzOTg1MCwiZXhwIjoxNjE4ODU1ODUwfQ.RYou2-1xNAwibonE2S7b3HwvyKHMEAY6Uqf7WArsR7o
+
+{
+    "speed": 82,
+    "accuracy": 94
+}

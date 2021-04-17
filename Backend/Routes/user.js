@@ -17,6 +17,7 @@ router.post("/login", async (req, res) => {
       {
         username: req.body.username,
         password: password,
+        id: user._doc._id,
       },
       process.env.KEY,
       {

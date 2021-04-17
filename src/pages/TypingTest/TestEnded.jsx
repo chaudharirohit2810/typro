@@ -1,8 +1,10 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import Card from "../../components/Card";
+import configs from "../../config";
 
-const TestEnded = ({ speed, data }) => {
+const TestEnded = ({ speed, data, postData }) => {
   const customTooltipOnYourLine = (e) => {
     if (e.active && e.payload != null && e.payload[0] != null) {
       return (
@@ -17,6 +19,20 @@ const TestEnded = ({ speed, data }) => {
       return "";
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .post(`${configs.BACKEND_URL}/stats/`, postData, {
+        headers: { token },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   return (
     <div

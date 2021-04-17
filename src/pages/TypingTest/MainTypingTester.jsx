@@ -56,7 +56,6 @@ const MainTypingTester = () => {
 
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
-      console.log(speedData);
       // speedData[60 - remainingTime] = speed;
       setSpeedData((prev) => {
         prev.push({ time: `${60 - remainingTime} sec`, speed: speed });
@@ -67,7 +66,6 @@ const MainTypingTester = () => {
 
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
-      // console.log({ pressedKey, paraKey });
       if (pressedKey.length === 0) {
         return;
       }
@@ -145,7 +143,11 @@ const MainTypingTester = () => {
     >
       {remainingTime === 0 || correctIndex >= para.length ? (
         <>
-          <TestEnded speed={speed} data={speedData} />
+          <TestEnded
+            speed={speed}
+            data={speedData}
+            postData={{ speed, accuracy }}
+          />
         </>
       ) : (
         <div
@@ -187,13 +189,11 @@ const MainTypingTester = () => {
             </div>
           </div>
           <Card>
-            <p
+            <div
               style={{ fontSize: 20, lineHeight: 1.7 }}
-              onKeyDown={(e) => console.log(e)}
               className={Style.code__snippet}
             >
               <div className={Style.time}>{remainingTime}s</div>
-              {/* {getFormattedContent(para)} */}
               <div style={{ paddingTop: "1.5rem" }}>
                 <span style={{ color: "rgb(0, 253, 177)" }}>
                   {para.substr(0, correctIndex)}
@@ -210,7 +210,7 @@ const MainTypingTester = () => {
                   {para.substr(typedIndex + 1, para.length - typedIndex)}
                 </span>
               </div>
-            </p>
+            </div>
           </Card>
         </div>
       )}
