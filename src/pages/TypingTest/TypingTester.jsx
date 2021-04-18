@@ -62,7 +62,6 @@ class TypingTester extends React.Component {
       if (!this.state.start) {
         this.setState({ start: 1 });
         let x = setInterval(() => {
-          // //console.log(this.state);
           this.setState({ time: this.state.time - 1 });
           if (!this.state.time) {
             this.setState({ over: true });

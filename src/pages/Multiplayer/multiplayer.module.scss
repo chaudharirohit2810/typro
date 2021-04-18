@@ -1,0 +1,16 @@
+.link_div {
+  margin-top: 2rem;
+  border: 2px dashed var(--text-color);
+  padding: 1rem 2rem 2rem;
+  width: 95vw;
+  max-width: 45rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+}

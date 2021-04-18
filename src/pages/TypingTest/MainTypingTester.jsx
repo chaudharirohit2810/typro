@@ -6,7 +6,7 @@ import { faKeyboard, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TestEnded from "./TestEnded";
 
-const MainTypingTester = () => {
+const MainTypingTester = ({ ismultiplayer, socket }) => {
   const testTime = 60;
   const [speed, setspeed] = useState(0);
   const [
@@ -130,6 +130,12 @@ const MainTypingTester = () => {
 
       const acc = 100 - Math.floor((wrongTypes / typedIndex) * 100);
       setAccuracy(acc);
+      if (ismultiplayer) {
+        socket.emit("send_typing_score", {
+          speed: wpm,
+          token: localStorage.getItem("token"),
+        });
+      }
     }
   }, [pressedKey, countDownStarted]);
   return (

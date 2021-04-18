@@ -35,7 +35,19 @@ const Dashboard = () => {
   }, []);
 
   if (loading) {
-    return <TypingLoader msg={"Authenticating your account..."} />;
+    return (
+      <div
+        className={Style.container}
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
   }
   return (
     <div className={Style.container}>
@@ -78,7 +90,7 @@ const Dashboard = () => {
           desc={
             "Be competitive! Create a room and share the link to your friends and then Battle it out with them and show your typing skills"
           }
-          link="/"
+          link="/multiplayer"
           linkTitle="Create room"
           icon={faArrowRight}
         />

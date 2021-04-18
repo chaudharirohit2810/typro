@@ -12,7 +12,6 @@ const TypingTestCard = (props) => {
       <p
         style={{
           fontSize: "20px",
-          // letterSpacing: "1.15px",
           lineHeight: 1.6,
           color: "var(--subtitle-color)",
         }}
