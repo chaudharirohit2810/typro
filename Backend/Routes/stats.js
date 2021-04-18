@@ -1,4 +1,4 @@
-const authenticateToken = require("../jwt");
+const { authenticateToken } = require("../jwt");
 const Stats = require("../models/stats");
 const User = require("../models/user");
 const router = require("express").Router();

@@ -1,25 +1,25 @@
-const User = require("../models/admin");
+const Admin = require("../models/admin");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const authenticate = require("../jwt");
+const { authenticateAdminToken } = require("../jwt");
 
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    if (!user) {
+    const admin = await Admin.findOne({ username });
+    if (!admin) {
       throw Error("User not found");
     }
-    if (!user.validPassword(password)) {
+    if (!admin.validPassword(password)) {
       throw Error("Invalid password");
     }
     jwt.sign(
       {
         username: req.body.username,
         password: password,
-        id: user._doc._id,
+        id: admin._doc._id,
       },
-      process.env.KEY,
+      process.env.ADMIN_KEY,
       {
         expiresIn: 60 * 60 * 60,
       },
@@ -27,7 +27,7 @@ router.post("/login", async (req, res) => {
         if (err) {
           throw Error(err.message);
         } else {
-          const { password, salt, ...resUser } = user._doc;
+          const { password, salt, ...resUser } = admin._doc;
           return res.status(200).send({
             token: token,
             msg: "Authentication successful",
@@ -43,16 +43,16 @@ router.post("/login", async (req, res) => {
 
 router.route("/register").post(async (req, res) => {
   try {
-    const user = new User(req.body);
-    user.setPassword(req.body.password);
-    await user.save();
-    res.status(201).send("User registration successful");
+    const admin = new Admin(req.body);
+    admin.setPassword(req.body.password);
+    await admin.save();
+    res.status(201).send("Admin registration successful");
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
 
-router.route("/verify").get(authenticate, (req, res) => {
+router.route("/verify").get(authenticateAdminToken, (req, res) => {
   return res.status(200).send("Verification successful");
 });
 

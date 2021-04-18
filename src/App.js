@@ -14,6 +14,7 @@ import {
   AppBar,
 } from "./pages";
 import ProtectedRoute from "./ProtectedRoute";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
 
 function App() {
   return (
@@ -32,9 +33,16 @@ function App() {
             component={MultiplayerTyping}
           />
           <Route exact path="/admin" component={AdminLogin} />
-          <Route exact path="/admindashboard" component={AdminDashboard} />
-          <Route exact path="/addSnippet" component={AddSnippet} />
-          <Route exact path="/snippets" component={Snippets} />
+          <ProtectedAdminRoute
+            exact
+            path="/admindashboard"
+            component={AdminDashboard}
+          />
+          <ProtectedAdminRoute
+            exact
+            path="/addSnippet"
+            component={AddSnippet}
+          />
         </Switch>
       </div>
     </Router>

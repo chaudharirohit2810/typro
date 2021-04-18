@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const authenticate = require("../jwt");
+const { authenticateToken } = require("../jwt");
 
 router.post("/login", async (req, res) => {
   try {
@@ -52,7 +52,7 @@ router.route("/register").post(async (req, res) => {
   }
 });
 
-router.route("/verify").get(authenticate, (req, res) => {
+router.route("/verify").get(authenticateToken, (req, res) => {
   return res.status(200).send("Verification successful");
 });
 

@@ -22,6 +22,9 @@ const Stats = () => {
       .get(`${configs.BACKEND_URL}/stats/`, { headers: { token } })
       .then((res) => {
         setUser({ ...res.data.user, totaltests: res.data.stats.length });
+        if (res.data.stats.length === 0) {
+          return;
+        }
         let tempStats = res.data.stats.map((stat) => ({
           ...stat,
           createdAt: new Date(stat.createdAt).toLocaleString(),
@@ -50,10 +53,12 @@ const Stats = () => {
             100
           ),
         ]);
-        setloading(false);
       })
       .catch((err) => {
         console.log(err.message);
+      })
+      .finally(() => {
+        setloading(false);
       });
   }, []);
 

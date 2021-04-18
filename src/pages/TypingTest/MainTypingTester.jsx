@@ -5,10 +5,16 @@ import { useCountDown, usePressedKey } from "./Hooks";
 import { faKeyboard, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TestEnded from "./TestEnded";
+import axios from "axios";
+import configs from "../../config";
+import DashboardStyle from "../Dashboard/dashboard.module.scss";
+import TypingLoader from "../../components/TypingLoader";
 
 const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
-  const testTime = 60;
+  const testTime = 120;
   const [speed, setspeed] = useState(0);
+  const [loading, setloading] = useState(true);
+  const [para, setPara] = useState("");
   const [
     remainingTime,
     countDownStarted,
@@ -22,14 +28,28 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
   const [pressedKey, _] = usePressedKey();
   const [speedData, setSpeedData] = useState([]);
 
-  const para =
-    "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
+  // const para =
+  // "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
+
+  useEffect(() => {
+    axios
+      .get(`${configs.BACKEND_URL}/snippets/`)
+      .then((res) => {
+        console.log(res.data);
+        setPara(res.data.snippets[0].code);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
+      .finally(() => {
+        setloading(false);
+      });
+  }, []);
 
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
-      // speedData[60 - remainingTime] = speed;
       setSpeedData((prev) => {
-        prev.push({ time: `${60 - remainingTime} sec`, speed: speed });
+        prev.push({ time: `${testTime - remainingTime} sec`, speed: speed });
         return prev;
       });
       const elapsedTime = testTime - remainingTime || 1;
@@ -111,6 +131,22 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
       setAccuracy(acc);
     }
   }, [pressedKey, countDownStarted]);
+  if (loading) {
+    return (
+      <div
+        className={DashboardStyle.container}
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
+  }
+
   return (
     <div
       style={{

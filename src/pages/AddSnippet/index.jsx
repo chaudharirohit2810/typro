@@ -12,25 +12,44 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 
-export default function AdminLogin() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function AddSnippet() {
+  const [snippet, setSnippet] = useState("");
+  const [language, setLangugae] = useState("C");
+  const [url, setUrl] = useState("");
 
   const his = useHistory();
 
-  function validateForm() {
-    return username.length > 0 && password.length > 0;
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
+    let temp = snippet.split("    ");
+    let code = "";
+    for (let str of temp) {
+      code += str;
+      code += "\t";
+    }
+    code = code.substr(0, code.length - 1);
+    temp = code.split("\n");
+    code = "";
+    for (let str of temp) {
+      code += str;
+      code += "↵\n";
+    }
     axios
-      .post(`${config.BACKEND_URL}/user/login`, { username, password })
+      .post(
+        `${config.BACKEND_URL}/snippets/`,
+        {
+          code,
+          language,
+          url,
+        },
+        {
+          headers: {
+            token: localStorage.getItem("admintoken"),
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        toast.dark("Login successful! Redirecting to main page");
-        his.replace("/");
       })
       .catch((err) => {
         toast.error("Invalid username or password", { autoClose: 3000 });
@@ -59,7 +78,7 @@ export default function AdminLogin() {
       >
         <h1 style={{ margin: "0", padding: "0", marginBottom: "1.5rem" }}>
           <FontAwesomeIcon icon={faUser} style={{ marginRight: "10px" }} />
-          Add New
+          Add New Snippet
         </h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="text">
@@ -75,38 +94,32 @@ export default function AdminLogin() {
               style={{ width: "90%" }}
               className="main__input"
               placeholder="Place the code snippet here"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={snippet}
+              onChange={(e) => setSnippet(e.target.value)}
             />
           </Form.Group>
-          <Form.Group
-            size="lg"
-            controlId="text"
-            style={{ marginTop: "1rem" }}
-          >
+          <Form.Group size="lg" controlId="text" style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Language:{" "}
             </Form.Label>
             <br></br>
             <Form.Control
-              
-              type="password"
-              as='select'
+              as="select"
               style={{ width: "90%" }}
-              value={password}
+              value={language}
               className="main__input"
-              placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Select language"
+              onChange={(e) => setLangugae(e.target.value)}
             >
               <option style={{ color: "black" }}>C</option>
-      <option>C++</option>
-      <option>Java</option>
-      <option>Python</option>
-      <option>Javascript</option>
-              </Form.Control>
+              <option>C++</option>
+              <option>Java</option>
+              <option>Python</option>
+              <option>Javascript</option>
+            </Form.Control>
           </Form.Group>
           <Form.Group controlId="text" style={{ marginTop: "1rem" }}>
-            <Form.Label style={{ fontSize: "19px", fontWeight: "bold"}}>
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Url:{" "}
             </Form.Label>
             <br></br>
@@ -116,8 +129,8 @@ export default function AdminLogin() {
               style={{ width: "90%" }}
               className="main__input"
               placeholder="type the reference url"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             />
           </Form.Group>
           <Button
@@ -131,7 +144,7 @@ export default function AdminLogin() {
               padding: "8px 10px",
               cursor: "pointer",
             }}
-            disabled={!validateForm()}
+            // disabled={!validateForm()}
             className="main__button"
           >
             Add
@@ -140,7 +153,6 @@ export default function AdminLogin() {
               style={{ marginLeft: "10px", fontSize: "18px" }}
             />
           </Button>
-          
         </Form>
       </Card>
       <ToastContainer

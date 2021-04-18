@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const authenticateToken = require("../jwt");
+const { authenticateToken } = require("../jwt");
 const router = require("express").Router();
 const Room = require("../models/room");
-const User = require("../models/user");
 
 router.route("/").post(async (req, res) => {
   try {
@@ -17,7 +16,6 @@ router.route("/").post(async (req, res) => {
 router.route("/:room_id").get(authenticateToken, async (req, res) => {
   try {
     let room_id = req.params.room_id;
-    const userid = req.user.id;
     let room = await Room.findOne({ room_id });
     if (!room) {
       throw Error("Invalid room id");
