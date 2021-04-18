@@ -12,6 +12,7 @@ import {
   Snippets,
   MultiplayerTyping,
   AppBar,
+  Register
 } from "./pages";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -35,6 +36,7 @@ function App() {
           <Route exact path="/admindashboard" component={AdminDashboard} />
           <Route exact path="/addSnippet" component={AddSnippet} />
           <Route exact path="/snippets" component={Snippets} />
+          <Route exact path="/register" component={Register} />
         </Switch>
       </div>
     </Router>

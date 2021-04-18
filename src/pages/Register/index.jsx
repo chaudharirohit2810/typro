@@ -12,30 +12,30 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 
-export default function AdminLogin() {
-  const [language, setLanguage] = useState("");
-  const [description, setDescription] = useState("");
-  // const [summary, setSummary] = useState("");
-  const [url, setUrl] = useState("");
-  let summary = "xyz";
+export default function Register() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
   const his = useHistory();
 
   function validateForm() {
-    return description.length > 0 && url.length > 0;
+    return username.length > 0 && password.length > 0 && password === password2 && name.length > 0 && email.length > 0;
   }
 
   function handleSubmit(event) {
-    const token = localStorage.getItem("token");
     event.preventDefault();
     axios
-      .post(`${config.BACKEND_URL}/snippets`, {headers: { token }, language, description, url, summary})
+      .post(`${config.BACKEND_URL}/user/register`, {username, password, email, name})
       .then((res) => {
-        toast.dark("Snippet Saved Successfully");
-        his.replace("/admindashboard");
+        console.log(res);
+        toast.dark("Successfully Registered! Redirecting to Login Page");
+        his.replace("/login");
       })
       .catch((err) => {
-        toast.error("Something went wrong", { autoClose: 3000 });
+        toast.error("Something went Wrong", { autoClose: 3000 });
       });
   }
 
@@ -61,67 +61,91 @@ export default function AdminLogin() {
       >
         <h1 style={{ margin: "0", padding: "0", marginBottom: "1.5rem" }}>
           <FontAwesomeIcon icon={faUser} style={{ marginRight: "10px" }} />
-          Add New
+          Register
         </h1>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="text">
+          <Form.Group controlId="name">
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
-              Code Snippet:{" "}
+              Username:{" "}
             </Form.Label>
             <br></br>
             <Form.Control
               autoFocus
-              as="textarea"
-              rows="7"
-              type="text"
+              type="name"
               style={{ width: "90%" }}
               className="main__input"
-              placeholder="Place the code snippet here"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Email:{""}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              autoFocus
+              type="name"
+              style={{ width: "90%" }}
+              className="main__input"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Name:{" "}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              autoFocus
+              type="name"
+              style={{ width: "90%" }}
+              className="main__input"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>
           <Form.Group
             size="lg"
-            controlId="text"
+            controlId="password"
             style={{ marginTop: "1rem" }}
           >
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
-              Language:{" "}
+              Password:{" "}
             </Form.Label>
             <br></br>
             <Form.Control
-              
               type="password"
-              as='select'
               style={{ width: "90%" }}
-              value={language}
+              value={password}
               className="main__input"
               placeholder="Enter password"
-              onChange={(e) => setLanguage(e.target.value)}
-            >
-              <option style={{ color: "black" }}>C</option>
-      <option>C++</option>
-      <option>Java</option>
-      <option>Python</option>
-      <option>Javascript</option>
-              </Form.Control>
+              onChange={(e) => setPassword1(e.target.value)}
+            />
           </Form.Group>
-          <Form.Group controlId="text" style={{ marginTop: "1rem" }}>
-            <Form.Label style={{ fontSize: "19px", fontWeight: "bold"}}>
-              Url:{" "}
+          <Form.Group
+            size="lg"
+            controlId="password"
+            style={{ marginTop: "1rem" }}
+          >
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Password:{" "}
             </Form.Label>
             <br></br>
             <Form.Control
-              autoFocus
-              type="text"
+              type="password"
               style={{ width: "90%" }}
+              value={password2}
               className="main__input"
-              placeholder="type the reference url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              placeholder="Verify the password"
+              onChange={(e) => setPassword2(e.target.value)}
             />
           </Form.Group>
+          
           <Button
             type="submit"
             style={{
@@ -136,13 +160,12 @@ export default function AdminLogin() {
             disabled={!validateForm()}
             className="main__button"
           >
-            Add
+            Submit
             <FontAwesomeIcon
               icon={faArrowRight}
               style={{ marginLeft: "10px", fontSize: "18px" }}
             />
           </Button>
-          
         </Form>
       </Card>
       <ToastContainer
