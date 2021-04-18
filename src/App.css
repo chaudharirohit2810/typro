@@ -53,6 +53,8 @@
 
 .main__button {
   padding: 10px 20px;
+  outline: none;
+  border: none;
   background-color: var(--text-color);
   color: var(--button-text-color);
   text-decoration: none;
@@ -61,7 +63,7 @@
   font-size: 16px;
   justify-content: center;
   align-items: center;
-  /* margin-top: 0.5rem; */
+  cursor: pointer;
 }
 
 .main__input {

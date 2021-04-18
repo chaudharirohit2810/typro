@@ -78,7 +78,7 @@ const Dashboard = () => {
           desc={
             "Be competitive! Create a room and share the link to your friends and then Battle it out with them and show your typing skills"
           }
-          link="/"
+          link="/multiplayer"
           linkTitle="Create room"
           icon={faArrowRight}
         />
