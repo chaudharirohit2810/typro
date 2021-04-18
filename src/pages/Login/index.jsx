@@ -27,7 +27,7 @@ export default function Login() {
     axios
       .post(`${config.BACKEND_URL}/user/login`, { username, password })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.user.username);
         localStorage.setItem("token", res.data.token);
         toast.dark("Login successful! Redirecting to main page");
         his.replace("/");

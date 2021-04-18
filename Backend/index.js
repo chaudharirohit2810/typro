@@ -34,6 +34,9 @@ mongoose
 
 io.on("connection", (socket) => {
   console.log("A user connected");
+  socket.on("send_typing_score", (data) => {
+    console.log(data);
+  });
   socket.on("disconnect", () => {
     console.log("A user disconnected");
   });

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import io from "socket.io-client";
 import Style from "../Dashboard/dashboard.module.scss";
 import MultiplayerStyle from "./multiplayer.module.scss";
-import { faUserFriends } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const socket = io("http://localhost:4000");
+import { nanoid } from "nanoid";
 
 const Multiplayer = () => {
   useEffect(() => {});
@@ -24,8 +23,25 @@ const Multiplayer = () => {
         then Battle it out with them and show your typing skills
       </p>
       <button className="main__button">Generate room link</button>
-      <div>
+      <div className={MultiplayerStyle.link_div}>
         <h2>Your room link</h2>
+        <div
+          style={{
+            display: "flex",
+            // justifyContent: "space-around",
+            // width: "90%",
+            alignItems: "center",
+          }}
+        >
+          {/* <div style={{ marginRight: "1rem" }}> */}
+          <span
+            style={{ fontSize: "18px", display: "block", marginRight: "1rem" }}
+          >
+            http://localhost:3000/multiplayertyping/{nanoid(6)}
+          </span>
+          {/* </div> */}
+          <FontAwesomeIcon icon={faCopy} style={{ fontSize: "20px" }} />
+        </div>
       </div>
     </div>
   );
