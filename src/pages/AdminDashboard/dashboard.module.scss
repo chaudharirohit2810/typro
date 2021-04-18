@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  //   justify-content: center;
+  padding-top: 1rem;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px auto;
+  max-width: 80rem;
+  width: 95vw;
+}
+
+.title {
+  font-size: clamp(30px, 3.5vw, 50px);
+  text-align: center;
+  margin: 0;
+  //   margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 2rem;
+}
+
+.dashboard_card {
+  margin: 1rem;
+  flex: 1;
+}
+
+$animationTime: 0.8s;
+$dotSize: 30px;
+.loader {
+  text-align: center;
+}
+.loader span {
+  display: inline-block;
+  vertical-align: middle;
+  width: $dotSize;
+  margin-right: 0.5rem;
+  height: $dotSize;
+  background: #fff;
+  border-radius: $dotSize;
+  animation: loader $animationTime infinite alternate;
+}
+.loader span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+.loader span:nth-of-type(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes loader {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+}
