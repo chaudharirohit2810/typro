@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 
 const Admin = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-  },
   password: {
     type: String,
     required: true,
@@ -14,9 +10,6 @@ const Admin = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  name: {
-    type: String,
   },
   salt: String,
 });

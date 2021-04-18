@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
-import { useHistory } from "react-router-dom";
-import MainTypingTester from "../TypingTest/MainTypingTester";
-import Style from "../Dashboard/dashboard.module.scss";
-import TypingLoader from "../../components/TypingLoader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTachometerAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import ProgressBar from "./ProgressBar";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import io from "socket.io-client";
+import TypingLoader from "../../components/TypingLoader";
 import configs from "../../config";
-import Card from "../../components/Card";
+import Style from "../Dashboard/dashboard.module.scss";
+import MainTypingTester from "../TypingTest/MainTypingTester";
 import Peers from "./Peers";
 const socket = io("http://localhost:4000");
 

@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const Snippet = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      required: true,
-    },
+    language: {
+      type : String,
+      required : true
+    }, 
     description: {
       type: String,
       required: true,
@@ -14,6 +14,10 @@ const Snippet = new mongoose.Schema(
       type: String,
       required: true,
     },
+    summary: {
+      type: String, 
+      required: true
+    }
     
   },
   { timestamps: true }

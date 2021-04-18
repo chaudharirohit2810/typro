@@ -30,7 +30,7 @@ const Dashboard = () => {
       })
       .catch((err) => {
         console.error(err.message);
-        his.replace("/login");
+        his.replace("/adminlogin");
       });
   }, []);
 

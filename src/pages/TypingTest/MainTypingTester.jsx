@@ -25,35 +25,6 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
   const para =
     "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
 
-  const getFormattedContent = (data) => {
-    const correctString = data.substr(0, correctIndex);
-    const wrongString = data.substr(correctIndex, typedIndex - correctIndex);
-    const remainingString = data.substr(typedIndex, para.length - typedIndex);
-    var item = (
-      <>
-        {correctString.split("\n").map((v, index) => (
-          <>
-            <span style={{ color: "rgb(0, 253, 177)" }}>{v}</span>
-            {index !== correctString.split("\n").length - 1 && <br />}
-          </>
-        ))}
-        {wrongString.split("\n").map((v, index) => (
-          <>
-            <span style={{ color: "rgb(255, 100, 25)" }}>{v}</span>
-            {index !== wrongString.split("\n").length - 1 && <br />}
-          </>
-        ))}
-        {remainingString.split("\n").map((v) => (
-          <>
-            <span>{v}</span>
-            <br />
-          </>
-        ))}
-      </>
-    );
-    return item;
-  };
-
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
       // speedData[60 - remainingTime] = speed;

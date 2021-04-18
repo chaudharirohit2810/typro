@@ -66,17 +66,6 @@ const Dashboard = () => {
   
   return (
     <div className={Style.container}>
-      <FontAwesomeIcon icon={faKeyboard} size="5x" />
-      <h1 className={Style.title}>TyPro: Typing master for programmers</h1>
-      <p
-        className={Style.subtitle}
-        style={{ color: "var(--subtitle-color)", fontSize: "18px" }}
-      >
-        A unique way to improve typing skills along with programming skills.
-        This is done by replacing general english paragraphs used in existing
-        typing tutors with open source coding snippets
-      </p>
-      
       {fetchAllSnippets()};
     </div>
   );
