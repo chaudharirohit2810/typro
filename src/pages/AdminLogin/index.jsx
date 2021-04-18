@@ -30,7 +30,7 @@ export default function AdminLogin() {
         console.log(res.data.user.username);
         localStorage.setItem("token", res.data.token);
         toast.dark("Login successful! Redirecting to main page");
-        his.replace("/admindashboard  ");
+        his.replace("/admindashboard");
       })
       .catch((err) => {
         toast.error("Invalid username or password", { autoClose: 3000 });

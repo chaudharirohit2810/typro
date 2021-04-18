@@ -12,29 +12,30 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
   const his = useHistory();
 
   function validateForm() {
-    return username.length > 0 && password.length > 0;
+    return username.length > 0 && password.length > 0 && password === password2 && name.length > 0 && email.length > 0;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post(`${config.BACKEND_URL}/user/login`, { username, password })
+      .post(`${config.BACKEND_URL}/user/register`, {username, password, email, name})
       .then((res) => {
-        // console.log(res.data.user.username);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("username", res.data.user.username);
-        toast.dark("Login successful! Redirecting to main page");
-        his.replace("/");
+        console.log(res);
+        toast.dark("Successfully Registered! Redirecting to Login Page");
+        his.replace("/login");
       })
       .catch((err) => {
-        toast.error("Invalid username or password", { autoClose: 3000 });
+        toast.error("Something went Wrong", { autoClose: 3000 });
       });
   }
 
@@ -60,7 +61,7 @@ export default function Login() {
       >
         <h1 style={{ margin: "0", padding: "0", marginBottom: "1.5rem" }}>
           <FontAwesomeIcon icon={faUser} style={{ marginRight: "10px" }} />
-          Login
+          Register
         </h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="name">
@@ -78,6 +79,36 @@ export default function Login() {
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Email:{""}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              autoFocus
+              type="name"
+              style={{ width: "90%" }}
+              className="main__input"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Name:{" "}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              autoFocus
+              type="name"
+              style={{ width: "90%" }}
+              className="main__input"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
           <Form.Group
             size="lg"
             controlId="password"
@@ -93,9 +124,28 @@ export default function Login() {
               value={password}
               className="main__input"
               placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword1(e.target.value)}
             />
           </Form.Group>
+          <Form.Group
+            size="lg"
+            controlId="password"
+            style={{ marginTop: "1rem" }}
+          >
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Password:{" "}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              type="password"
+              style={{ width: "90%" }}
+              value={password2}
+              className="main__input"
+              placeholder="Verify the password"
+              onChange={(e) => setPassword2(e.target.value)}
+            />
+          </Form.Group>
+          
           <Button
             type="submit"
             style={{
@@ -110,22 +160,12 @@ export default function Login() {
             disabled={!validateForm()}
             className="main__button"
           >
-            Login
+            Submit
             <FontAwesomeIcon
               icon={faArrowRight}
               style={{ marginLeft: "10px", fontSize: "18px" }}
             />
           </Button>
-          <Link
-            to="/register"
-            style={{
-              display: "block",
-              marginTop: "1rem",
-              color: "var(--text-color)",
-            }}
-          >
-            Not a User? Register
-          </Link>
         </Form>
       </Card>
       <ToastContainer

@@ -13,27 +13,29 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 
 export default function AdminLogin() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [language, setLanguage] = useState("");
+  const [description, setDescription] = useState("");
+  // const [summary, setSummary] = useState("");
+  const [url, setUrl] = useState("");
+  let summary = "xyz";
 
   const his = useHistory();
 
   function validateForm() {
-    return username.length > 0 && password.length > 0;
+    return description.length > 0 && url.length > 0;
   }
 
   function handleSubmit(event) {
+    const token = localStorage.getItem("token");
     event.preventDefault();
     axios
-      .post(`${config.BACKEND_URL}/user/login`, { username, password })
+      .post(`${config.BACKEND_URL}/snippets`, {headers: { token }, language, description, url, summary})
       .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        toast.dark("Login successful! Redirecting to main page");
-        his.replace("/");
+        toast.dark("Snippet Saved Successfully");
+        his.replace("/admindashboard");
       })
       .catch((err) => {
-        toast.error("Invalid username or password", { autoClose: 3000 });
+        toast.error("Something went wrong", { autoClose: 3000 });
       });
   }
 
@@ -75,8 +77,8 @@ export default function AdminLogin() {
               style={{ width: "90%" }}
               className="main__input"
               placeholder="Place the code snippet here"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>
           <Form.Group
@@ -93,10 +95,10 @@ export default function AdminLogin() {
               type="password"
               as='select'
               style={{ width: "90%" }}
-              value={password}
+              value={language}
               className="main__input"
               placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setLanguage(e.target.value)}
             >
               <option style={{ color: "black" }}>C</option>
       <option>C++</option>
@@ -116,8 +118,8 @@ export default function AdminLogin() {
               style={{ width: "90%" }}
               className="main__input"
               placeholder="type the reference url"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             />
           </Form.Group>
           <Button
