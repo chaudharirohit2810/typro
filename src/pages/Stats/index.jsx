@@ -58,7 +58,19 @@ const Stats = () => {
   }, []);
 
   if (loading) {
-    return <TypingLoader msg={"Fetching stats......"} />;
+    return (
+      <div
+        className={Style.container}
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
   }
 
   return (

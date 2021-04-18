@@ -13,10 +13,10 @@ POST http://localhost:4000/api/user/register
 Content-Type: application/json
 
 {
-    "username": "rohit2",
-    "password": "12345",
+    "username": "aditya",
+    "password": "adi123",
     "email": "123@12.com",
-    "name": "Rohit Chaudhari"
+    "name": "aditya"
 }
 
 ### GET all the stats

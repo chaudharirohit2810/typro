@@ -35,7 +35,19 @@ const Dashboard = () => {
   }, []);
 
   if (loading) {
-    return <TypingLoader msg={"Authenticating your account..."} />;
+    return (
+      <div
+        className={Style.container}
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
   }
   return (
     <div className={Style.container}>

@@ -3901,9 +3901,9 @@
   "version" "1.0.2"
 
 "chart.js@^3.1.0":
-  "integrity" "sha512-bKJi2VbC4fqZXlLbK7LKVvmG9crjoG9anfp96utZLyIGPuCx+YN+5/HDXy98QGt3lf74T8gKUPISUZL222tDJQ=="
-  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.1.0.tgz"
-  "version" "3.1.0"
+  "integrity" "sha512-ghNJersc9VD9MECwa5bL8gqvCkndW6RSCicdEHL9lIriNtXwKawlSmwo+u6KNXLYT2+f24GdFPBoynKW3ke4MQ=="
+  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.1.1.tgz"
+  "version" "3.1.1"
 
 "check-types@^11.1.1":
   "integrity" "sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ=="
@@ -4713,14 +4713,14 @@
   "version" "2.0.0"
 
 "d3-scale@^3.2.3":
-  "integrity" "sha512-PG6gtpbPCFqKbvdBEswQcJcTzHC8VEd/XzezF5e68KlkT4/ggELw/nR1tv863jY6ufKTvDlzCMZvhe06codbbA=="
-  "resolved" "https://registry.npmjs.org/d3-scale/-/d3-scale-3.2.4.tgz"
-  "version" "3.2.4"
+  "integrity" "sha512-1JGp44NQCt5d1g+Yy+GeOnZP7xHo0ii8zsQp6PGzd+C1/dl0KGsp9A7Mxwp+1D1o4unbTTxVdU/ZOIEBoeZPbQ=="
+  "resolved" "https://registry.npmjs.org/d3-scale/-/d3-scale-3.3.0.tgz"
+  "version" "3.3.0"
   dependencies:
     "d3-array" "^2.3.0"
     "d3-format" "1 - 2"
     "d3-interpolate" "1.2.0 - 2"
-    "d3-time" "1 - 2"
+    "d3-time" "^2.1.1"
     "d3-time-format" "2 - 3"
 
 "d3-shape@^2.0.0":
@@ -4737,7 +4737,7 @@
   dependencies:
     "d3-time" "1 - 2"
 
-"d3-time@1 - 2":
+"d3-time@^2.1.1", "d3-time@1 - 2":
   "integrity" "sha512-/eIQe/eR4kCQwq7yxi7z4c6qEXf2IYGcjoWB5OOQy4Tq9Uv39/947qlDcN2TLkiTzQWzvnsuYPB9TrWaNfipKQ=="
   "resolved" "https://registry.npmjs.org/d3-time/-/d3-time-2.1.1.tgz"
   "version" "2.1.1"
@@ -12044,9 +12044,9 @@
     "tweetnacl" "~0.14.0"
 
 "ssri@^6.0.1":
-  "integrity" "sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q=="
-  "resolved" "https://registry.npmjs.org/ssri/-/ssri-6.0.2.tgz"
-  "version" "6.0.2"
+  "integrity" "sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA=="
+  "resolved" "https://registry.npmjs.org/ssri/-/ssri-6.0.1.tgz"
+  "version" "6.0.1"
   dependencies:
     "figgy-pudding" "^3.5.1"
 
