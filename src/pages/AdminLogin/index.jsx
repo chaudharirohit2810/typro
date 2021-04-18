@@ -25,12 +25,12 @@ export default function AdminLogin() {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post(`${config.BACKEND_URL}/user/login`, { username, password })
+      .post(`${config.BACKEND_URL}/admin/login`, { username, password })
       .then((res) => {
         console.log(res.data.user.username);
         localStorage.setItem("token", res.data.token);
         toast.dark("Login successful! Redirecting to main page");
-        his.replace("/");
+        his.replace("/admindashboard  ");
       })
       .catch((err) => {
         toast.error("Invalid username or password", { autoClose: 3000 });
@@ -59,7 +59,7 @@ export default function AdminLogin() {
       >
         <h1 style={{ margin: "0", padding: "0", marginBottom: "1.5rem" }}>
           <FontAwesomeIcon icon={faUser} style={{ marginRight: "10px" }} />
-          Login
+          Admin
         </h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="name">
@@ -109,22 +109,13 @@ export default function AdminLogin() {
             disabled={!validateForm()}
             className="main__button"
           >
-            Login
+            Admin
             <FontAwesomeIcon
               icon={faArrowRight}
               style={{ marginLeft: "10px", fontSize: "18px" }}
             />
           </Button>
-          <Link
-            to="/"
-            style={{
-              display: "block",
-              marginTop: "1rem",
-              color: "var(--text-color)",
-            }}
-          >
-            Not a User? Register
-          </Link>
+          
         </Form>
       </Card>
       <ToastContainer

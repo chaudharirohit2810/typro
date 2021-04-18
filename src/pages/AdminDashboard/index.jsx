@@ -24,7 +24,7 @@ const Dashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get(`${config.BACKEND_URL}/user/verify`, {
+      .get(`${config.BACKEND_URL}/admin/verify`, {
         headers: {
           token,
         },
@@ -34,7 +34,7 @@ const Dashboard = () => {
       })
       .catch((err) => {
         console.error(err.message);
-        his.replace("/adminlogin");
+        his.replace("/admin");
       });
   }, []);
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
         This is done by replacing general english paragraphs used in existing
         typing tutors with open source coding snippets
       </p>
-      <div style = {{position: "absolute", right: "-0%", top: "-7%"}}>
+      <div style = {{position: "absolute", right: "-0%", top: "3%"}}>
       <DashBoardCard
         link="/addSnippet"
         linkTitle="Add a code snippet"
