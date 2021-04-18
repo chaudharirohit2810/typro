@@ -10,7 +10,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-const routes = ["user", "stats"];
+const routes = ["user", "stats", "admin", "snippets"];
 
 routes.map((route) => {
   app.use(`/api/${route}`, require(`./Routes/${route}`));
