@@ -34,7 +34,6 @@ router.route("/:room_id").get(authenticateToken, async (req, res) => {
       users = await Promise.all(
         result.users.map(async (item) => {
           const user = await User.findById(mongoose.Types.ObjectId(item));
-          console.log(user);
           return { speed: 0, username: user._doc.username };
         })
       );

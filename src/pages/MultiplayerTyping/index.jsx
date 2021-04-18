@@ -59,8 +59,17 @@ const MultiplayerTyping = (props) => {
         Work hard in silence! Type the provided open source code snippet as fast
         as you can.
       </p>
-      <Peers socket={socket} defaultPeers={peers} />
-      <MainTypingTester ismultiplayer={true} socket={socket} />
+      <Peers
+        socket={socket}
+        defaultPeers={peers}
+        room_id={props.match.params.id}
+      />
+
+      <MainTypingTester
+        ismultiplayer={true}
+        socket={socket}
+        room_id={props.match.params.id}
+      />
     </div>
   );
 };

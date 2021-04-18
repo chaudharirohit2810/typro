@@ -6,7 +6,7 @@ import { faKeyboard, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TestEnded from "./TestEnded";
 
-const MainTypingTester = ({ ismultiplayer, socket }) => {
+const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
   const testTime = 60;
   const [speed, setspeed] = useState(0);
   const [
@@ -32,6 +32,17 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
         prev.push({ time: `${60 - remainingTime} sec`, speed: speed });
         return prev;
       });
+      const elapsedTime = testTime - remainingTime || 1;
+      const wpm = Math.floor((correctIndex / 5 / elapsedTime) * 60);
+      setspeed(wpm);
+      if (ismultiplayer) {
+        socket.emit("send_typing_score", {
+          speed: wpm,
+          username: localStorage.getItem("username"),
+          token: localStorage.getItem("token"),
+          room_id: room_id,
+        });
+      }
     }
   }, [remainingTime]);
 
@@ -95,19 +106,9 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
           setWrongTypes(wrongTypes + 1);
           break;
       }
-      const elapsedTime = testTime - remainingTime || 1;
-      const wpm = Math.floor((correctIndex / 5 / elapsedTime) * 60);
-      setspeed(wpm);
 
       const acc = 100 - Math.floor((wrongTypes / typedIndex) * 100);
       setAccuracy(acc);
-      if (ismultiplayer) {
-        socket.emit("send_typing_score", {
-          speed: wpm,
-          username: localStorage.getItem("username"),
-          token: localStorage.getItem("token"),
-        });
-      }
     }
   }, [pressedKey, countDownStarted]);
   return (

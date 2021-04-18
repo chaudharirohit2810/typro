@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import ProgressBar from "./ProgressBar";
 
-const Peers = ({ socket, defaultPeers }) => {
+const Peers = ({ socket, defaultPeers, room_id }) => {
   const [peers, setPeers] = useState([]);
   useEffect(() => {
     socket.on("get_peer_typing_scores", (data) => {
-      setPeers((prev) => {
-        let index = prev.findIndex((item) => item.username === data.username);
-        if (index === -1) {
-          return [...prev, data];
-        } else {
-          prev[index].speed = data.speed;
-          return [...prev];
-        }
-      });
+      if (data.room_id === room_id) {
+        setPeers((prev) => {
+          let index = prev.findIndex((item) => item.username === data.username);
+          if (index === -1) {
+            return [...prev, data];
+          } else {
+            prev[index].speed = data.speed;
+            return [...prev];
+          }
+        });
+      }
     });
   }, []);
   return (
