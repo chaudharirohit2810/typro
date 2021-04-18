@@ -133,7 +133,7 @@ export default function Register() {
             style={{ marginTop: "1rem" }}
           >
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
-              Password:{" "}
+              Confirm Password:{" "}
             </Form.Label>
             <br></br>
             <Form.Control
