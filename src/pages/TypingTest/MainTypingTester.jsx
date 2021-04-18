@@ -133,6 +133,7 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
       if (ismultiplayer) {
         socket.emit("send_typing_score", {
           speed: wpm,
+          username: localStorage.getItem("username"),
           token: localStorage.getItem("token"),
         });
       }

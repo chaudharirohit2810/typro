@@ -11,6 +11,7 @@ import {
   AddSnippet,
   Snippets,
   MultiplayerTyping,
+  AppBar,
 } from "./pages";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -18,6 +19,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <AppBar />
         <Switch>
           <ProtectedRoute exact path="/" component={DashBoard} />
           <Route exact path="/typingtest" component={TypingTest} />

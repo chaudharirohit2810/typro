@@ -8,3 +8,4 @@ export { default as AdminLogin } from "./AdminLogin";
 export { default as AdminDashboard } from "./AdminDashboard";
 export { default as AddSnippet } from "./AddSnippet";
 export { default as Snippets } from "./Snippets";
+export { default as AppBar } from "./AppBar";
