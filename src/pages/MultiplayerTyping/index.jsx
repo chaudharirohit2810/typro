@@ -13,7 +13,6 @@ const socket = io("http://localhost:4000");
 
 const MultiplayerTyping = (props) => {
   const [loading, setloading] = useState(true);
-  const [peers, setPeers] = useState([]);
 
   const his = useHistory();
   useEffect(() => {
@@ -25,9 +24,9 @@ const MultiplayerTyping = (props) => {
         },
       })
       .then((res) => {
-        setPeers(res.data);
         socket.emit("peer_added", {
           username: localStorage.getItem("username"),
+          room_id: id,
         });
       })
       .catch((err) => {
@@ -59,11 +58,7 @@ const MultiplayerTyping = (props) => {
         Work hard in silence! Type the provided open source code snippet as fast
         as you can.
       </p>
-      <Peers
-        socket={socket}
-        defaultPeers={peers}
-        room_id={props.match.params.id}
-      />
+      <Peers socket={socket} />
 
       <MainTypingTester
         ismultiplayer={true}

@@ -22,23 +22,7 @@ router.route("/:room_id").get(authenticateToken, async (req, res) => {
     if (!room) {
       throw Error("Invalid room id");
     }
-    let { _id, ...roomObj } = room._doc;
-    if (!roomObj.users.find((item) => item === userid)) {
-      roomObj.users.push(userid);
-    }
-    let result = await Room.findByIdAndUpdate(_id, roomObj);
-    result = JSON.stringify(result);
-    result = JSON.parse(result);
-    let users = [];
-    if (result.users) {
-      users = await Promise.all(
-        result.users.map(async (item) => {
-          const user = await User.findById(mongoose.Types.ObjectId(item));
-          return { speed: 0, username: user._doc.username };
-        })
-      );
-    }
-    res.status(200).send(users);
+    res.status(200).send("Room exists");
   } catch (error) {
     console.log(error.message);
     res.status(400).send(error.message);

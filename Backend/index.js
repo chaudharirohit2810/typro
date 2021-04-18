@@ -35,11 +35,15 @@ mongoose
 io.on("connection", (socket) => {
   socket.on("send_typing_score", (data) => {
     const { token, ...mainData } = data;
-    io.emit("get_peer_typing_scores", mainData);
+    io.to(mainData.room_id).emit("get_peer_typing_scores", mainData);
   });
 
   socket.on("peer_added", (data) => {
-    io.emit("get_peer_typing_scores", { speed: 0, username: data["username"] });
+    socket.join(data.room_id);
+    io.to(data.room_id).emit("get_peer_typing_scores", {
+      speed: 0,
+      username: data["username"],
+    });
   });
 
   socket.on("disconnect", () => {
