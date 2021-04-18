@@ -14,9 +14,9 @@ Content-Type: application/json
 
 {
     "username": "aditya",
-    "password": "adi123",
-    "email": "123@12.com",
-    "name": "aditya"
+    "password": "12345",
+    "email": "123@1234.com",
+    "name": "Roshan Bangar"
 }
 
 ### GET all the stats

@@ -13,7 +13,7 @@ const io = require("socket.io")(http, {
 app.use(cors());
 app.use(express.json());
 
-const routes = ["user", "stats", "admin", "snippets"];
+const routes = ["user", "stats", "room", "admin", "snippets"];
 
 routes.map((route) => {
   app.use(`/api/${route}`, require(`./Routes/${route}`));
@@ -33,7 +33,15 @@ mongoose
   });
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  socket.on("send_typing_score", (data) => {
+    const { token, ...mainData } = data;
+    io.emit("get_peer_typing_scores", mainData);
+  });
+
+  socket.on("peer_added", (data) => {
+    io.emit("get_peer_typing_scores", { speed: 0, username: data["username"] });
+  });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
   });

@@ -6,7 +6,7 @@ import { faKeyboard, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TestEnded from "./TestEnded";
 
-const MainTypingTester = ({ ismultiplayer, socket }) => {
+const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
   const testTime = 60;
   const [speed, setspeed] = useState(0);
   const [
@@ -25,35 +25,6 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
   const para =
     "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
 
-  const getFormattedContent = (data) => {
-    const correctString = data.substr(0, correctIndex);
-    const wrongString = data.substr(correctIndex, typedIndex - correctIndex);
-    const remainingString = data.substr(typedIndex, para.length - typedIndex);
-    var item = (
-      <>
-        {correctString.split("\n").map((v, index) => (
-          <>
-            <span style={{ color: "rgb(0, 253, 177)" }}>{v}</span>
-            {index !== correctString.split("\n").length - 1 && <br />}
-          </>
-        ))}
-        {wrongString.split("\n").map((v, index) => (
-          <>
-            <span style={{ color: "rgb(255, 100, 25)" }}>{v}</span>
-            {index !== wrongString.split("\n").length - 1 && <br />}
-          </>
-        ))}
-        {remainingString.split("\n").map((v) => (
-          <>
-            <span>{v}</span>
-            <br />
-          </>
-        ))}
-      </>
-    );
-    return item;
-  };
-
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
       // speedData[60 - remainingTime] = speed;
@@ -61,6 +32,17 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
         prev.push({ time: `${60 - remainingTime} sec`, speed: speed });
         return prev;
       });
+      const elapsedTime = testTime - remainingTime || 1;
+      const wpm = Math.floor((correctIndex / 5 / elapsedTime) * 60);
+      setspeed(wpm);
+      if (ismultiplayer) {
+        socket.emit("send_typing_score", {
+          speed: wpm,
+          username: localStorage.getItem("username"),
+          token: localStorage.getItem("token"),
+          room_id: room_id,
+        });
+      }
     }
   }, [remainingTime]);
 
@@ -124,18 +106,9 @@ const MainTypingTester = ({ ismultiplayer, socket }) => {
           setWrongTypes(wrongTypes + 1);
           break;
       }
-      const elapsedTime = testTime - remainingTime || 1;
-      const wpm = Math.floor((correctIndex / 5 / elapsedTime) * 60);
-      setspeed(wpm);
 
       const acc = 100 - Math.floor((wrongTypes / typedIndex) * 100);
       setAccuracy(acc);
-      if (ismultiplayer) {
-        socket.emit("send_typing_score", {
-          speed: wpm,
-          token: localStorage.getItem("token"),
-        });
-      }
     }
   }, [pressedKey, countDownStarted]);
   return (

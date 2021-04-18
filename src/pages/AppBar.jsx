@@ -2,7 +2,6 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-
 const AppBar = () => {
   const his = useHistory();
   return (
@@ -31,7 +30,7 @@ const AppBar = () => {
           his.replace("/login");
         }}
       >
-      Logout
+        Logout
       </button>
     </div>
   );

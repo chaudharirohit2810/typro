@@ -1,11 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Style from "../Dashboard/dashboard.module.scss";
 import MultiplayerStyle from "./multiplayer.module.scss";
 import { faCopy, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nanoid } from "nanoid";
+import axios from "axios";
+import configs from "../../config";
+import TypingLoader from "../../components/TypingLoader";
 
 const Multiplayer = () => {
+  const [loading, setloading] = useState(false);
+  const [id, setid] = useState(undefined);
+  const generateRoomLink = () => {
+    let room_id = nanoid(6);
+    setloading(true);
+    axios
+      .post(`${configs.BACKEND_URL}/room/`, { room_id })
+      .then((res) => {
+        setid(room_id);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      })
+      .finally(() => {
+        setloading(false);
+      });
+  };
   useEffect(() => {});
   return (
     <div className={Style.container}>
@@ -22,26 +42,40 @@ const Multiplayer = () => {
         Be competitive! Create a room and share the link to your friends and
         then Battle it out with them and show your typing skills
       </p>
-      <button className="main__button">Generate room link</button>
+      <button className="main__button" onClick={generateRoomLink}>
+        Generate room link
+      </button>
       <div className={MultiplayerStyle.link_div}>
-        <h2>Your room link</h2>
-        <div
-          style={{
-            display: "flex",
-            // justifyContent: "space-around",
-            // width: "90%",
-            alignItems: "center",
-          }}
-        >
-          {/* <div style={{ marginRight: "1rem" }}> */}
-          <span
-            style={{ fontSize: "18px", display: "block", marginRight: "1rem" }}
-          >
-            http://localhost:3000/multiplayertyping/{nanoid(6)}
-          </span>
-          {/* </div> */}
-          <FontAwesomeIcon icon={faCopy} style={{ fontSize: "20px" }} />
-        </div>
+        {loading ? (
+          <TypingLoader msg={"Generating room id....."} />
+        ) : (
+          <>
+            {id === undefined ? (
+              <h2>Click above button to generate room id</h2>
+            ) : (
+              <>
+                <h2>Your room link</h2>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      display: "block",
+                      marginRight: "1rem",
+                    }}
+                  >
+                    http://localhost:3000/multiplayertyping/{id}
+                  </span>
+                  <FontAwesomeIcon icon={faCopy} style={{ fontSize: "20px" }} />
+                </div>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
