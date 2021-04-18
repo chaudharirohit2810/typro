@@ -18,6 +18,7 @@ export default function Register() {
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [language, setLanguage] = useState("");
 
   const his = useHistory();
 
@@ -28,7 +29,7 @@ export default function Register() {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post(`${config.BACKEND_URL}/user/register`, {username, password, email, name})
+      .post(`${config.BACKEND_URL}/user/register`, { username, password, email, name, language })
       .then((res) => {
         console.log(res);
         toast.dark("Successfully Registered! Redirecting to Login Page");
@@ -64,7 +65,8 @@ export default function Register() {
           Register
         </h1>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="name">
+          <Form.Group controlId="name"
+            style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Username:{" "}
             </Form.Label>
@@ -79,7 +81,8 @@ export default function Register() {
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="name">
+          <Form.Group controlId="name"
+            style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Email:{""}
             </Form.Label>
@@ -94,7 +97,8 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="name">
+          <Form.Group controlId="name"
+            style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Name:{" "}
             </Form.Label>
@@ -144,8 +148,33 @@ export default function Register() {
               placeholder="Verify the password"
               onChange={(e) => setPassword2(e.target.value)}
             />
+
           </Form.Group>
-          
+          <Form.Group controlId="name"
+            style={{ marginTop: "1rem" }}>
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Preffered Language:{""}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              autoFocus
+              type="name"
+              as="select"
+              style={{ width: "90%" }}
+              className="main__input"
+              placeholder="Enter Name"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+
+            >
+              <option style={{ color: "blue" }}>C</option>
+              <option style={{ color: 'blue' }}>C++</option>
+              <option style={{ color: "blue" }}>Java</option>
+              <option style={{ color: "blue" }}>Python</option>
+              <option style={{ color: "blue" }}>Javascript</option>
+            </Form.Control>
+          </Form.Group>
+
           <Button
             type="submit"
             style={{

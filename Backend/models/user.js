@@ -18,6 +18,10 @@ const User = new mongoose.Schema({
   name: {
     type: String,
   },
+  language: {
+    type: String,
+    required: true
+  },
   salt: String,
 });
 

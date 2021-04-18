@@ -51,6 +51,7 @@ export default function AddSnippet() {
       )
       .then((res) => {
         console.log(res.data);
+        his.replace("/admindashboard");
       })
       .catch((err) => {
         toast.error("Something went wrong", { autoClose: 3000 });
@@ -112,11 +113,11 @@ export default function AddSnippet() {
               placeholder="Select language"
               onChange={(e) => setLangugae(e.target.value)}
             >
-              <option style={{ color: "black" }}>C</option>
-              <option>C++</option>
-              <option>Java</option>
-              <option>Python</option>
-              <option>Javascript</option>
+              <option style={{ color: "blue" }}>C</option>
+              <option style= {{color: 'blue'}}>C++</option>
+              <option style={{ color: "blue" }}>Java</option>
+              <option style={{ color: "blue" }}>Python</option>
+              <option style={{ color: "blue" }}>Javascript</option>
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="text" style={{ marginTop: "1rem" }}>

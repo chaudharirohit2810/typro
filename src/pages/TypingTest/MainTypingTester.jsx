@@ -36,7 +36,18 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
       .get(`${configs.BACKEND_URL}/snippets/`)
       .then((res) => {
         console.log(res.data);
-        setPara(res.data.snippets[0].code);
+        let random = [];
+        let snippets = res.data.snippets;
+        let  usr = localStorage.getItem('user');
+        usr = JSON.parse(usr);
+        console.log(usr);
+        for(let i = 0; i < snippets.length; i++) {
+          console.log(snippets[i].language + " " + usr.language);
+          if(snippets[i].language === usr.language) {
+            random.push(snippets[i]);
+          }
+        }
+        setPara(random[0].code);
       })
       .catch((err) => {
         console.log(err.message);
@@ -146,7 +157,7 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
       </div>
     );
   }
-
+  
   return (
     <div
       style={{

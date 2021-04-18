@@ -26,6 +26,7 @@ function App() {
           <ProtectedRoute exact path="/" component={DashBoard} />
           <Route exact path="/typingtest" component={TypingTest} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           <ProtectedRoute exact path="/stats" component={Stats} />
           <ProtectedRoute exact path="/multiplayer" component={Multiplayer} />
           <ProtectedRoute

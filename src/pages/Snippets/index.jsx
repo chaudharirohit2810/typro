@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Style from "./dashboard.module.scss";
 import DashBoardCard from "./DashboardCard";
+import configs from "../../config";
+import DashboardStyle from "../Dashboard/dashboard.module.scss";
 import {
   faArrowRight,
   faKeyboard,
@@ -20,53 +22,66 @@ import config from "../../config";
 import TypingLoader from "../../components/TypingLoader";
 
 const Dashboard = () => {
-  // const [loading, setLoading] = useState(true);
-  // const his = useHistory();
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   axios
-  //     .get(`${config.BACKEND_URL}/user/verify`, {
-  //       headers: {
-  //         token,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err.message);
-  //       his.replace("/login");
-  //     });
-  // }, []);
+  const [loading, setloading] = useState(true);
 
-  // if (loading) {
-  //   return <TypingLoader msg={"Authenticating your account..."} />;
-  // }
   let fetchAllSnippets = () => {
-    let x = [];
-    for (let i = 0; i < 4; i++) {
-      x.push(<DashBoardCard
-        title={
-          <span>
-            <FontAwesomeIcon
-              icon={faMarker}
-              style={{ marginRight: 10 }}
-            />
-            C++
-          </span>
+    let x = [];    
+    axios
+      .get(`${configs.BACKEND_URL}/snippets/`)
+      .then((res) => {
+        console.log(res.data);
+        
+        let snippets = res.data.snippets;
+        
+        for(let i = 0; i < snippets.length; i++) {
+          x.push(<DashBoardCard
+            title={
+              <span>
+                <FontAwesomeIcon
+                  icon={faMarker}
+                  style={{ marginRight: 10 }}
+                />
+                {snippets[i].language}
+              </span>
+            }
+            desc={snippets[i].code}
+            link="/typingtest"
+            linkTitle="Delete Snippet"
+            icon={faEraser}
+          />);
         }
-        desc={`Work hard in silence! Type the provided open source code snippet as fast as you can to improve your typing speed and programming skills. The code snippet is provided in your favorite programming language.`}
-        link="/typingtest"
-        linkTitle="Delete Snippet"
-        icon={faEraser}
-      />);
-    }
+        
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
+      .finally(() => {
+        console.log("finish");
+        setloading(false);
+      });
+    
+    
+    
     return x;
   }
-  
+  if (loading) {
+    return (
+      <div
+        className={DashboardStyle.container}
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
+  }
   return (
     <div className={Style.container}>
-      {fetchAllSnippets()};
+      {fetchAllSnippets()}
     </div>
   );
 };
