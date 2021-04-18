@@ -12,6 +12,7 @@ import {
   Snippets,
   MultiplayerTyping,
   AppBar,
+  Register,
 } from "./pages";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";

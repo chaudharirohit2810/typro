@@ -20,6 +20,7 @@ export default function AddSnippet() {
   const his = useHistory();
 
   function handleSubmit(event) {
+    const token = localStorage.getItem("token");
     event.preventDefault();
     let temp = snippet.split("    ");
     let code = "";
@@ -52,7 +53,7 @@ export default function AddSnippet() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error("Invalid username or password", { autoClose: 3000 });
+        toast.error("Something went wrong", { autoClose: 3000 });
       });
   }
 

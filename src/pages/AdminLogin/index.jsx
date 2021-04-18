@@ -29,7 +29,7 @@ export default function AdminLogin() {
       .then((res) => {
         localStorage.setItem("admintoken", res.data.token);
         toast.dark("Login successful! Redirecting to main page");
-        his.replace("/admindashboard  ");
+        his.replace("/admindashboard");
       })
       .catch((err) => {
         console.log(err.message);
