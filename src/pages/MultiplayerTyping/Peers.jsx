@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import ProgressBar from "./ProgressBar";
 
-const Peers = ({ socket }) => {
+const Peers = ({ socket, defaultPeers }) => {
   const [peers, setPeers] = useState([]);
   useEffect(() => {
     socket.on("get_peer_typing_scores", (data) => {
@@ -34,6 +34,19 @@ const Peers = ({ socket }) => {
           label={peer.username}
         />
       ))}
+      {defaultPeers.map((peer) => {
+        return (
+          <div key={peer.username}>
+            {!peers.find((item) => item.username === peer.username) && (
+              <ProgressBar
+                completed={peer.speed}
+                bgcolor={"#ee6352"}
+                label={peer.username}
+              />
+            )}
+          </div>
+        );
+      })}
     </Card>
   );
 };

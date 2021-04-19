@@ -16,7 +16,7 @@ const Multiplayer = () => {
   const [codeSnippetId, setcodeSnippetId] = useState();
   const [language, setLanguage] = useState("C");
   const generateRoomLink = () => {
-    let room_id = nanoid(6);
+    let room_id = nanoid(10);
     setloading(true);
     axios
       .post(`${configs.BACKEND_URL}/room/`, { room_id, language })

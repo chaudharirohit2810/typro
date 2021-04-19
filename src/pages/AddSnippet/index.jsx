@@ -18,10 +18,12 @@ export default function AddSnippet() {
   const [url, setUrl] = useState("");
 
   const his = useHistory();
+  const toastId = React.useRef(null);
 
   function handleSubmit(event) {
     const token = localStorage.getItem("token");
     event.preventDefault();
+    toastId.current = toast.dark("Adding snippet......", { autoClose: 10000 });
     let temp = snippet.split("    ");
     let code = "";
     for (let str of temp) {
@@ -51,6 +53,7 @@ export default function AddSnippet() {
       )
       .then((res) => {
         console.log(res.data);
+        toast.done(toastId.current);
         toast.dark("Code snippet added successfully");
         setSnippet("");
         setUrl("");
@@ -58,6 +61,7 @@ export default function AddSnippet() {
         // his.replace("/admindashboard");
       })
       .catch((err) => {
+        toast.done(toastId.current);
         toast.error("Something went wrong! Please try again", {
           autoClose: 3000,
         });

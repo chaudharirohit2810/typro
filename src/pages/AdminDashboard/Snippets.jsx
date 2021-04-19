@@ -7,24 +7,46 @@ import Card from "../../components/Card";
 import configs from "../../config";
 import Style from "../Dashboard/dashboard.module.scss";
 import DashBoardCard from "../Dashboard/DashboardCard";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [loading, setloading] = useState(true);
   const [snippets, setsnippets] = useState([]);
+  const toastId = React.useRef(null);
+
+  const deleteSnippet = (id) => {
+    const token = localStorage.getItem("admintoken");
+    toastId.current = toast.dark("Deleting snippet....", { autoClose: 10000 });
+    axios
+      .delete(`${configs.BACKEND_URL}/snippets/${id}`, { headers: { token } })
+      .then((res) => {
+        setsnippets((prev) => {
+          let temp = [...prev];
+          const index = temp.findIndex((item) => item._id === id);
+          if (index != -1) {
+            temp.splice(index, 1);
+          }
+          return temp;
+        });
+        toast.done(toastId.current);
+        toast.dark("Snippet delete successfully");
+      })
+      .catch((err) => {
+        toast.done(toastId.current);
+        toast.error("Snippet Deletion failed");
+      });
+  };
 
   useEffect(() => {
     axios
       .get(`${configs.BACKEND_URL}/snippets/`)
       .then((res) => {
-        // console.log(res.data);
-        console.log(res.data);
         setsnippets(res.data);
       })
       .catch((err) => {
         console.log(err.message);
       })
       .finally(() => {
-        console.log("finish");
         setloading(false);
       });
   }, []);
@@ -49,12 +71,19 @@ const Dashboard = () => {
       {snippets.map?.((item) => {
         return (
           <Card
+            key={item._id}
             style={{ width: "100%", maxWidth: "64rem", marginBottom: "1rem" }}
           >
             <h1>{item.language}</h1>
             <p style={{ whiteSpace: "pre-wrap" }}>{item.code}</p>
             <div style={{ marginTop: "1.5rem" }}>
-              <button className="main__button" style={{ fontSize: "16px" }}>
+              <button
+                className="main__button"
+                style={{ fontSize: "16px" }}
+                onClick={() => {
+                  deleteSnippet(item._id);
+                }}
+              >
                 <FontAwesomeIcon
                   icon={faEraser}
                   style={{ marginRight: "0.5rem", fontSize: "18px" }}
