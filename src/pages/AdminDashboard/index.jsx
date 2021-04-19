@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import Style from "./dashboard.module.scss";
-import { Link } from "react-router-dom";
-import {
-  faArrowRight,
-  faKeyboard,
-  faUserFriends,
-  faChartLine,
-  faTachometerAlt,
-  faAddressBook,
-  faUpload,
-  faMarker,
-  faEraser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faKeyboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import config from "../../config";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import TypingLoader from "../../components/TypingLoader";
-import { Snippets } from "../../pages";
+import Snippets from "./Snippets";
+import Style from "../Dashboard/dashboard.module.scss";
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const his = useHistory();
@@ -32,14 +19,6 @@ const Dashboard = () => {
       <FontAwesomeIcon icon={faKeyboard} size="5x" />
 
       <h1 className={Style.title}>Admin Panel</h1>
-      {/* <p
-        className={Style.subtitle}
-        style={{ color: "var(--subtitle-color)", fontSize: "18px" }}
-      >
-        A unique way to improve typing skills along with programming skills.
-        This is done by replacing general english paragraphs used in existing
-        typing tutors with open source coding snippets
-      </p> */}
       <div
         style={{
           marginTop: "1rem",

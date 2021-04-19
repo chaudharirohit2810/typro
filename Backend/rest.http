@@ -49,3 +49,6 @@ Content-Type: application/json
     "username": "admin",
     "password": "12345"
 }
+
+### DELETE All Java Code snippets
+DELETE  http://localhost:4000/api/snippets/language/Java

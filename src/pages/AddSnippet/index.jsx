@@ -51,10 +51,16 @@ export default function AddSnippet() {
       )
       .then((res) => {
         console.log(res.data);
-        his.replace("/admindashboard");
+        toast.dark("Code snippet added successfully");
+        setSnippet("");
+        setUrl("");
+        setLangugae("C");
+        // his.replace("/admindashboard");
       })
       .catch((err) => {
-        toast.error("Something went wrong", { autoClose: 3000 });
+        toast.error("Something went wrong! Please try again", {
+          autoClose: 3000,
+        });
       });
   }
 
@@ -91,7 +97,7 @@ export default function AddSnippet() {
             <Form.Control
               autoFocus
               as="textarea"
-              rows="7"
+              rows="10"
               type="text"
               style={{ width: "90%" }}
               className="main__input"
@@ -114,7 +120,7 @@ export default function AddSnippet() {
               onChange={(e) => setLangugae(e.target.value)}
             >
               <option style={{ color: "blue" }}>C</option>
-              <option style= {{color: 'blue'}}>C++</option>
+              <option style={{ color: "blue" }}>C++</option>
               <option style={{ color: "blue" }}>Java</option>
               <option style={{ color: "blue" }}>Python</option>
               <option style={{ color: "blue" }}>Javascript</option>

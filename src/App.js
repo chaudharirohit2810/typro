@@ -9,7 +9,6 @@ import {
   AdminLogin,
   AdminDashboard,
   AddSnippet,
-  Snippets,
   MultiplayerTyping,
   AppBar,
   Register,
@@ -23,10 +22,10 @@ function App() {
       <div className="App">
         <AppBar />
         <Switch>
-          <ProtectedRoute exact path="/" component={DashBoard} />
-          <Route exact path="/typingtest" component={TypingTest} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <ProtectedRoute exact path="/" component={DashBoard} />
+          <Route exact path="/typingtest" component={TypingTest} />
           <ProtectedRoute exact path="/stats" component={Stats} />
           <ProtectedRoute exact path="/multiplayer" component={Multiplayer} />
           <ProtectedRoute

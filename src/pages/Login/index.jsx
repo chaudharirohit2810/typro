@@ -30,10 +30,9 @@ export default function Login() {
         // console.log(res.data.user.username);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", res.data.user.username);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("lang", res.data.user.language);
         toast.dark("Login successful! Redirecting to main page");
         his.replace("/");
-        
       })
       .catch((err) => {
         toast.error("Invalid username or password", { autoClose: 3000 });

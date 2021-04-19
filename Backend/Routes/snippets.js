@@ -17,7 +17,40 @@ router.route("/").post(authenticateAdminToken, async (req, res) => {
 router.route("/").get(async (req, res) => {
   try {
     const snippets = await Snippet.find({});
-    res.status(200).send({ snippets });
+    res.status(200).send(snippets);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+};
+
+router.route("/:language").get(async (req, res) => {
+  try {
+    const language = req.params.language;
+    if (!language) {
+      throw Error("Invalid language");
+    }
+    const snippets = await Snippet.aggregate([
+      { $match: { language } },
+      { $sample: { size: 1 } },
+    ]);
+    res.status(200).send(snippets[0]);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error.message);
+  }
+});
+
+router.route("/language/:language").delete(async (req, res) => {
+  try {
+    const lang = req.params.language;
+    const result = await Snippet.remove({ language: lang });
+    res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
   }

@@ -9,6 +9,7 @@ import axios from "axios";
 import configs from "../../config";
 import DashboardStyle from "../Dashboard/dashboard.module.scss";
 import TypingLoader from "../../components/TypingLoader";
+import { useHistory } from "react-router-dom";
 
 const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
   const testTime = 120;
@@ -27,30 +28,24 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
   const [wrongTypes, setWrongTypes] = useState(0);
   const [pressedKey, _] = usePressedKey();
   const [speedData, setSpeedData] = useState([]);
+  const his = useHistory();
 
   // const para =
   // "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
 
   useEffect(() => {
+    const lang = localStorage.getItem("lang");
+    if (!lang) {
+      his.replace("/");
+    }
     axios
-      .get(`${configs.BACKEND_URL}/snippets/`)
+      .get(`${configs.BACKEND_URL}/snippets/${lang}`)
       .then((res) => {
-        console.log(res.data);
-        let random = [];
-        let snippets = res.data.snippets;
-        let  usr = localStorage.getItem('user');
-        usr = JSON.parse(usr);
-        console.log(usr);
-        for(let i = 0; i < snippets.length; i++) {
-          console.log(snippets[i].language + " " + usr.language);
-          if(snippets[i].language === usr.language) {
-            random.push(snippets[i]);
-          }
-        }
-        setPara(random[0].code);
+        setPara(res.data.code);
       })
       .catch((err) => {
         console.log(err.message);
+        his.replace("/");
       })
       .finally(() => {
         setloading(false);
@@ -157,7 +152,7 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
       </div>
     );
   }
-  
+
   return (
     <div
       style={{

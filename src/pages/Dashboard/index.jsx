@@ -15,40 +15,6 @@ import config from "../../config";
 import TypingLoader from "../../components/TypingLoader";
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const his = useHistory();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .get(`${config.BACKEND_URL}/user/verify`, {
-        headers: {
-          token,
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err.message);
-        his.replace("/adminlogin");
-      });
-  }, []);
-
-  if (loading) {
-    return (
-      <div
-        className={Style.container}
-        style={{
-          height: "90vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TypingLoader msg={"Authenticating your account..."} />
-      </div>
-    );
-  }
   return (
     <div className={Style.container}>
       <FontAwesomeIcon icon={faKeyboard} size="5x" />

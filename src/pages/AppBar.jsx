@@ -1,9 +1,11 @@
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const AppBar = () => {
   const his = useHistory();
+  useEffect(() => {
+    console.log(his.location.pathname);
+  });
   return (
     <div
       style={{
