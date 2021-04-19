@@ -17,7 +17,7 @@ export default function Register() {
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState("C");
 
   const his = useHistory();
 
@@ -204,14 +204,6 @@ export default function Register() {
           </Button>
         </Form>
       </Card>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-      />
     </div>
   );
 }

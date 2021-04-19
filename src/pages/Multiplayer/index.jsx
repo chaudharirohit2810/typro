@@ -7,17 +7,23 @@ import { nanoid } from "nanoid";
 import axios from "axios";
 import configs from "../../config";
 import TypingLoader from "../../components/TypingLoader";
+import { Form } from "react-bootstrap";
 
 const Multiplayer = () => {
+  const frontend = "http://localhost:3000";
   const [loading, setloading] = useState(false);
   const [id, setid] = useState(undefined);
+  const [codeSnippetId, setcodeSnippetId] = useState();
+  const [language, setLanguage] = useState("C");
   const generateRoomLink = () => {
     let room_id = nanoid(6);
     setloading(true);
     axios
-      .post(`${configs.BACKEND_URL}/room/`, { room_id })
+      .post(`${configs.BACKEND_URL}/room/`, { room_id, language })
       .then((res) => {
+        // console.log(res.data);
         setid(room_id);
+        setcodeSnippetId(res.data);
       })
       .catch((err) => {
         console.error(err.message);
@@ -42,6 +48,36 @@ const Multiplayer = () => {
         Be competitive! Create a room and share the link to your friends and
         then Battle it out with them and show your typing skills
       </p>
+      <Form.Group
+        controlId="name"
+        style={{
+          marginTop: "1rem",
+          marginBottom: "1rem",
+          width: "90%",
+          maxWidth: "400px",
+        }}
+      >
+        <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+          Select preferred language:{""}
+        </Form.Label>
+        <br></br>
+        <Form.Control
+          autoFocus
+          type="name"
+          as="select"
+          style={{ width: "90%" }}
+          className="main__input"
+          placeholder="Enter Name"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option style={{ color: "blue" }}>C</option>
+          <option style={{ color: "blue" }}>C++</option>
+          <option style={{ color: "blue" }}>Java</option>
+          <option style={{ color: "blue" }}>Python</option>
+          <option style={{ color: "blue" }}>Javascript</option>
+        </Form.Control>
+      </Form.Group>
       <button className="main__button" onClick={generateRoomLink}>
         Generate room link
       </button>
@@ -68,7 +104,7 @@ const Multiplayer = () => {
                       marginRight: "1rem",
                     }}
                   >
-                    http://localhost:3000/multiplayertyping/{id}
+                    {frontend}/multiplayertyping/{id}/{codeSnippetId}
                   </span>
                   <FontAwesomeIcon icon={faCopy} style={{ fontSize: "20px" }} />
                 </div>

@@ -48,6 +48,7 @@ router.route("/register").post(async (req, res) => {
     await user.save();
     res.status(201).send("User registration successful");
   } catch (error) {
+    console.log(req.body);
     res.status(400).send(error.message);
   }
 });

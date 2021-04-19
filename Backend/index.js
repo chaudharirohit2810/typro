@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 
   socket.on("peer_added", (data) => {
     socket.join(data.room_id);
-    io.to(data.room_id).emit("get_peer_typing_scores", {
+    io.in(data.room_id).emit("get_peer_typing_scores", {
       speed: 0,
       username: data["username"],
     });

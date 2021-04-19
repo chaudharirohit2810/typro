@@ -1,6 +1,7 @@
 const { authenticateAdminToken } = require("../jwt");
 const Snippet = require("../models/snippets");
 const router = require("express").Router();
+const mongoose = require("mongoose");
 
 router.route("/").post(authenticateAdminToken, async (req, res) => {
   try {
@@ -29,7 +30,20 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 };
 
-router.route("/:language").get(async (req, res) => {
+router.route("/:id").get(async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      throw Error("Invalid code snippet id");
+    }
+    const snippet = await Snippet.findById(mongoose.Types.ObjectId(id));
+    res.status(200).send(snippet);
+  } catch (error) {
+    res.status(400).send(err.message);
+  }
+});
+
+router.route("/language/:language").get(async (req, res) => {
   try {
     const language = req.params.language;
     if (!language) {

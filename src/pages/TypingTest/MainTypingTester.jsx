@@ -12,7 +12,12 @@ import TypingLoader from "../../components/TypingLoader";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
+const MainTypingTester = ({
+  ismultiplayer,
+  socket,
+  room_id,
+  codesnippetid,
+}) => {
   const testTime = 120;
   const [speed, setspeed] = useState(0);
   const [loading, setloading] = useState(true);
@@ -39,19 +44,35 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
     if (!lang) {
       his.replace("/");
     }
-    axios
-      .get(`${configs.BACKEND_URL}/snippets/${lang}`)
-      .then((res) => {
-        setPara(res.data.code);
-      })
-      .catch((err) => {
-        console.log(err.message);
-        toast.error("Something went wrong while fetchig the snippet");
-        his.replace("/");
-      })
-      .finally(() => {
-        setloading(false);
-      });
+    if (ismultiplayer) {
+      axios
+        .get(`${configs.BACKEND_URL}/snippets/${codesnippetid}`)
+        .then((res) => {
+          setPara(res.data.code);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          toast.error("Something went wrong while fetching the snippet");
+          his.replace("/");
+        })
+        .finally(() => {
+          setloading(false);
+        });
+    } else {
+      axios
+        .get(`${configs.BACKEND_URL}/snippets/language/${lang}`)
+        .then((res) => {
+          setPara(res.data.code);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          toast.error("Something went wrong while fetchig the snippet");
+          his.replace("/");
+        })
+        .finally(() => {
+          setloading(false);
+        });
+    }
   }, []);
 
   useEffect(() => {

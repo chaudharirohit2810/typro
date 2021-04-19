@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import io from "socket.io-client";
 import TypingLoader from "../../components/TypingLoader";
 import configs from "../../config";
@@ -17,6 +18,12 @@ const MultiplayerTyping = (props) => {
   const his = useHistory();
   useEffect(() => {
     const id = props?.match?.params?.id;
+    const codesnippetid = props?.match?.params?.codesnippetid;
+    if (!id || !codesnippetid) {
+      toast.error("Invalid url!");
+      his.replace("/");
+    }
+
     axios
       .get(`${configs.BACKEND_URL}/room/${id}`, {
         headers: {
@@ -30,6 +37,7 @@ const MultiplayerTyping = (props) => {
         });
       })
       .catch((err) => {
+        toast.error("Invalid room id");
         his.replace("/");
       })
       .finally(() => {
@@ -64,6 +72,7 @@ const MultiplayerTyping = (props) => {
         ismultiplayer={true}
         socket={socket}
         room_id={props.match.params.id}
+        codesnippetid={props?.match?.params?.codesnippetid}
       />
     </div>
   );

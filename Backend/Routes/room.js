@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
 const { authenticateToken } = require("../jwt");
 const router = require("express").Router();
+const Snippet = require("../models/snippets");
 const Room = require("../models/room");
 
 router.route("/").post(async (req, res) => {
   try {
     const room = new Room(req.body);
     await room.save();
-    res.status(200).send("Room created successfully");
+    const { language } = req.body;
+    const snippets = await Snippet.aggregate([
+      { $match: { language } },
+      { $sample: { size: 1 } },
+    ]);
+    res.status(200).send(snippets[0]._id);
   } catch (error) {
     res.status(400).send(error.message);
   }

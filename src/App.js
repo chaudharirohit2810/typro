@@ -31,7 +31,7 @@ function App() {
           <ProtectedRoute exact path="/multiplayer" component={Multiplayer} />
           <ProtectedRoute
             exact
-            path="/multiplayertyping/:id"
+            path="/multiplayertyping/:id/:codesnippetid"
             component={MultiplayerTyping}
           />
           <Route exact path="/admin" component={AdminLogin} />
