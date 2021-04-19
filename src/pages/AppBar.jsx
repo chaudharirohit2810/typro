@@ -1,10 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const AppBar = () => {
   const his = useHistory();
-  useEffect(() => {
-    console.log(his.location.pathname);
+  const logoutinvisibleRoutes = ["/login", "/admin", "/register"];
+  const adminRoutes = ["/admindashboard", "/addSnippet"];
+  const [isLogoutVisible, setLogoutVisible] = useState(() => {
+    return !logoutinvisibleRoutes.find(
+      (item) => item === his.location.pathname
+    );
+  });
+
+  his.listen((loc) => {
+    setLogoutVisible(
+      !logoutinvisibleRoutes.find((item) => item === loc.pathname)
+    );
   });
   return (
     <div
@@ -18,22 +28,29 @@ const AppBar = () => {
       }}
     >
       <h2 style={{ margin: "0px" }}>typro</h2>
-      <button
-        style={{
-          backgroundColor: "transparent",
-          color: "var(--text-color)",
-          border: "none",
-          outline: "none",
-          fontWeight: "700",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          localStorage.clear();
-          his.replace("/login");
-        }}
-      >
-        Logout
-      </button>
+      {isLogoutVisible && (
+        <button
+          style={{
+            backgroundColor: "transparent",
+            color: "var(--text-color)",
+            border: "none",
+            outline: "none",
+            fontWeight: "700",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            localStorage.clear();
+
+            if (adminRoutes.find((item) => item === his.location.pathname)) {
+              his.replace("/admin");
+            } else {
+              his.replace("/login");
+            }
+          }}
+        >
+          Logout
+        </button>
+      )}
     </div>
   );
 };

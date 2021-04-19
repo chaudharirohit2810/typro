@@ -8,9 +8,11 @@ import axios from "axios";
 import configs from "../../config";
 import TypingLoader from "../../components/TypingLoader";
 import { Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const Multiplayer = () => {
   const frontend = "http://localhost:3000";
+  const textAreaRef = React.useRef(null);
   const [loading, setloading] = useState(false);
   const [id, setid] = useState(undefined);
   const [codeSnippetId, setcodeSnippetId] = useState();
@@ -32,7 +34,12 @@ const Multiplayer = () => {
         setloading(false);
       });
   };
-  useEffect(() => {});
+  function copyToClipboard(e) {
+    navigator.clipboard.writeText(
+      `${frontend}/multiplayertyping/${id}/${codeSnippetId}`
+    );
+    toast.dark("Link copied!");
+  }
   return (
     <div className={Style.container}>
       <FontAwesomeIcon icon={faUserFriends} size="5x" />
@@ -95,18 +102,38 @@ const Multiplayer = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
+                    backgroundColor: "var(--card-color)",
                   }}
                 >
                   <span
                     style={{
                       fontSize: "18px",
                       display: "block",
-                      marginRight: "1rem",
+                      padding: "0.5rem 1rem",
                     }}
+                    ref={textAreaRef}
                   >
                     {frontend}/multiplayertyping/{id}/{codeSnippetId}
                   </span>
-                  <FontAwesomeIcon icon={faCopy} style={{ fontSize: "20px" }} />
+                  <div
+                    style={{
+                      backgroundColor: "#13161e",
+                      width: "50px",
+                      height: "50px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: "25px",
+                    }}
+                    onClick={copyToClipboard}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      style={{
+                        fontSize: "25px",
+                      }}
+                    />
+                  </div>
                 </div>
               </>
             )}

@@ -21,35 +21,6 @@ routes.map((route) => {
   app.use(`/api/${route}`, require(`./Routes/${route}`));
 });
 
-const removeUser = async ({ token, room_id }) => {
-  try {
-    let userid = undefined;
-    jwt.verify(token, process.env.KEY, (err, user) => {
-      if (err) return;
-      userid = user.id;
-    });
-    if (!userid) {
-      throw Errro("Invalid user id");
-    }
-    const room = await Room.findOne({ room_id });
-    if (!room) {
-      throw Error("Invalid room id");
-    }
-    const users = room._doc.users;
-    const index = users.findIndex((item) => item === userid);
-    const newusers = users.splice(index, 1);
-    if (newusers.length === 0) {
-      await Room.findOneAndDelete({ room_id });
-      console.log("Delete successful");
-    } else {
-      let newroom = { ...room._doc, users: newusers };
-      await Room.findOneAndUpdate({ room_id }, newroom);
-      console.log("Update successful");
-    }
-    console.log(index);
-  } catch (error) {}
-};
-
 mongoose
   .connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
@@ -65,17 +36,27 @@ mongoose
   });
 
 var sockets = [];
-io.on("connection", function (socket) {
-  const id = socket.id;
+var timeouts = [];
 
-  socket.on("user-join", function (data) {
-    sockets[id] = res.id;
-  });
+const removeRoom = async (room_id) => {
+  try {
+    timeouts[room_id] = setTimeout(async () => {
+      await Room.findOneAndDelete({ room_id });
+      console.log("Delete successful");
+    }, 10000);
+  } catch (error) {
+    console.log(`Remove room: ${error.message}`);
+  }
+};
 
-  socket.on("disconnect", function (data) {
-    io.emit("user-unjoin", { user_id: sockets[id], status: "offline" });
-  });
-});
+const checkRoomValid = (room_id) => {
+  for (let key of Object.keys(sockets)) {
+    if (sockets[key].room_id === room_id) {
+      return;
+    }
+  }
+  removeRoom(room_id);
+};
 
 io.on("connection", (socket) => {
   let id = socket.id;
@@ -86,7 +67,14 @@ io.on("connection", (socket) => {
 
   socket.on("peer_added", (data) => {
     socket.join(data.room_id);
-    sockets[id] = { token: data.token, room_id: data.room_id };
+    if (sockets[id]) {
+      sockets[id].push({ token: data.token, room_id: data.room_id });
+    } else {
+      sockets[id] = [{ token: data.token, room_id: data.room_id }];
+    }
+    if (timeouts[data.room_id]) {
+      clearTimeout(timeouts[data.room_id]);
+    }
     io.in(data.room_id).emit("get_peer_typing_scores", {
       speed: 0,
       username: data["username"],
@@ -95,7 +83,11 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    // removeUser(sockets[id]);
+    if (sockets[id]) {
+      let room_id = sockets[id].room_id;
+      delete sockets[id];
+      checkRoomValid(room_id);
+    }
   });
 });
 
