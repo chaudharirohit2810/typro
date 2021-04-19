@@ -10,6 +10,7 @@ import configs from "../../config";
 import DashboardStyle from "../Dashboard/dashboard.module.scss";
 import TypingLoader from "../../components/TypingLoader";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
   const testTime = 120;
@@ -45,6 +46,7 @@ const MainTypingTester = ({ ismultiplayer, socket, room_id }) => {
       })
       .catch((err) => {
         console.log(err.message);
+        toast.error("Something went wrong while fetchig the snippet");
         his.replace("/");
       })
       .finally(() => {

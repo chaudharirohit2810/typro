@@ -13,6 +13,7 @@ import {
   AppBar,
   Register,
 } from "./pages";
+import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
 
@@ -45,6 +46,14 @@ function App() {
             component={AddSnippet}
           />
         </Switch>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+        />
       </div>
     </Router>
   );

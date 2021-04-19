@@ -31,7 +31,7 @@ export default function Login() {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", res.data.user.username);
         localStorage.setItem("lang", res.data.user.language);
-        toast.dark("Login successful! Redirecting to main page");
+        toast.dark("Login successful!");
         his.replace("/");
       })
       .catch((err) => {
@@ -129,14 +129,6 @@ export default function Login() {
           </Link>
         </Form>
       </Card>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-      />
     </div>
   );
 }

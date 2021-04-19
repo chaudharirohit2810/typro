@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Card from "../../components/Card";
-import { Link } from "react-router-dom";
-import "./Login.css";
+import { faArrowRight, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import config from "../../config";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Card from "../../components/Card";
+import config from "../../config";
+import "./Login.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -23,20 +22,34 @@ export default function Register() {
   const his = useHistory();
 
   function validateForm() {
-    return username.length > 0 && password.length > 0 && password === password2 && name.length > 0 && email.length > 0;
+    return (
+      username.length > 0 &&
+      password.length > 0 &&
+      password === password2 &&
+      name.length > 0 &&
+      email.length > 0
+    );
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post(`${config.BACKEND_URL}/user/register`, { username, password, email, name, language })
+      .post(`${config.BACKEND_URL}/user/register`, {
+        username,
+        password,
+        email,
+        name,
+        language,
+      })
       .then((res) => {
         console.log(res);
         toast.dark("Successfully Registered! Redirecting to Login Page");
         his.replace("/login");
       })
       .catch((err) => {
-        toast.error("Something went Wrong", { autoClose: 3000 });
+        toast.error("Something went Wrong! Please try again", {
+          autoClose: 3000,
+        });
       });
   }
 
@@ -65,8 +78,7 @@ export default function Register() {
           Register
         </h1>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="name"
-            style={{ marginTop: "1rem" }}>
+          <Form.Group controlId="name" style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Username:{" "}
             </Form.Label>
@@ -81,8 +93,7 @@ export default function Register() {
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="name"
-            style={{ marginTop: "1rem" }}>
+          <Form.Group controlId="name" style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Email:{""}
             </Form.Label>
@@ -97,8 +108,7 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="name"
-            style={{ marginTop: "1rem" }}>
+          <Form.Group controlId="name" style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Name:{" "}
             </Form.Label>
@@ -148,10 +158,8 @@ export default function Register() {
               placeholder="Verify the password"
               onChange={(e) => setPassword2(e.target.value)}
             />
-
           </Form.Group>
-          <Form.Group controlId="name"
-            style={{ marginTop: "1rem" }}>
+          <Form.Group controlId="name" style={{ marginTop: "1rem" }}>
             <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
               Preffered Language:{""}
             </Form.Label>
@@ -165,10 +173,9 @@ export default function Register() {
               placeholder="Enter Name"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-
             >
               <option style={{ color: "blue" }}>C</option>
-              <option style={{ color: 'blue' }}>C++</option>
+              <option style={{ color: "blue" }}>C++</option>
               <option style={{ color: "blue" }}>Java</option>
               <option style={{ color: "blue" }}>Python</option>
               <option style={{ color: "blue" }}>Javascript</option>

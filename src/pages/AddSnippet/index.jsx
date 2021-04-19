@@ -163,14 +163,6 @@ export default function AddSnippet() {
           </Button>
         </Form>
       </Card>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-      />
     </div>
   );
 }

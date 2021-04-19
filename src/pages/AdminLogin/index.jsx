@@ -28,7 +28,7 @@ export default function AdminLogin() {
       .post(`${config.BACKEND_URL}/admin/login`, { username, password })
       .then((res) => {
         localStorage.setItem("admintoken", res.data.token);
-        toast.dark("Login successful! Redirecting to main page");
+        toast.dark("Admin Login successful");
         his.replace("/admindashboard");
       })
       .catch((err) => {
@@ -117,14 +117,6 @@ export default function AdminLogin() {
           </Button>
         </Form>
       </Card>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-      />
     </div>
   );
 }
