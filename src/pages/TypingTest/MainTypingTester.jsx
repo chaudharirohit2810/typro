@@ -47,7 +47,6 @@ const MainTypingTester = ({
 
   useEffect(() => {
     setloading(true);
-    console.log("Entered");
     if (ismultiplayer) {
       axios
         .get(`${configs.BACKEND_URL}/snippets/${codesnippetid}`)
@@ -195,7 +194,6 @@ const MainTypingTester = ({
         marginBottom: "2rem",
       }}
     >
-      {console.log({ remainingTime, correctIndex, len: para.length })}
       {remainingTime === 0 || correctIndex >= para.length ? (
         <>
           <TestEnded
