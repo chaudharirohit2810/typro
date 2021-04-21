@@ -4,11 +4,14 @@ const usePressedKey = () => {
   const [pressedKey, setPressedKey] = useState([]);
 
   useEffect(() => {
-    const onKeyDown = ({ key }) => {
-      if (pressedKey === key) {
+    const onKeyDown = (e) => {
+      if (pressedKey === e.key) {
         setPressedKey("");
       }
-      setPressedKey(key);
+      if (e.keyCode == 32 || e.key == "/") {
+        e.preventDefault();
+      }
+      setPressedKey(e.key);
     };
 
     document.addEventListener("keydown", onKeyDown);

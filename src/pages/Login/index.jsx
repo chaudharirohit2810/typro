@@ -126,7 +126,7 @@ export default function Login() {
           >
             Not a User? Register
           </Link>
-          {/* <Link
+          <Link
             to="/guest"
             style={{
               display: "block",
@@ -135,7 +135,7 @@ export default function Login() {
             }}
           >
             Just want to try it out? Guest Login
-          </Link> */}
+          </Link>
         </Form>
       </Card>
     </div>

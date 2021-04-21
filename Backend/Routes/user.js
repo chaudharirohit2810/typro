@@ -2,6 +2,7 @@ const User = require("../models/user");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("../jwt");
+const mongoose = require("mongoose");
 
 router.post("/login", async (req, res) => {
   try {
@@ -49,6 +50,21 @@ router.route("/register").post(async (req, res) => {
     res.status(201).send("User registration successful");
   } catch (error) {
     console.log(req.body);
+    res.status(400).send(error.message);
+  }
+});
+
+router.route("/lang/:language").put(authenticateToken, async (req, res) => {
+  try {
+    const id = req.user.id;
+    const language = req.params.language;
+    const user = await User.findById(mongoose.Types.ObjectId(id));
+    user._doc["language"] = language;
+    const { _id, ...mainUser } = user._doc;
+    await User.findById(mongoose.Types.ObjectId(id), mainUser);
+    res.status(200).send("Language updated");
+  } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 });

@@ -20,7 +20,13 @@ const useCountDown = (countDownTime) => {
     };
   }, [remainingTime, countDownStarted]);
 
-  return [remainingTime, countDownStarted, setCountDownStarted, resetCountDown];
+  return [
+    remainingTime,
+    countDownStarted,
+    setCountDownStarted,
+    resetCountDown,
+    setRemainingTime,
+  ];
 };
 
 export default useCountDown;

@@ -3,8 +3,16 @@ import React, { useEffect } from "react";
 import { LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import Card from "../../components/Card";
 import configs from "../../config";
+import { Link } from "react-router-dom";
 
-const TestEnded = ({ speed, data, postData, guest }) => {
+const TestEnded = ({
+  speed,
+  data,
+  postData,
+  guest,
+  retryTest,
+  ismultiplayer,
+}) => {
   const customTooltipOnYourLine = (e) => {
     if (e.active && e.payload != null && e.payload[0] != null) {
       return (
@@ -21,17 +29,15 @@ const TestEnded = ({ speed, data, postData, guest }) => {
   };
 
   useEffect(() => {
-    if (!guest) {
-      const token = localStorage.getItem("token");
-      axios
-        .post(`${configs.BACKEND_URL}/stats/`, postData, {
-          headers: { token },
-        })
-        .then((res) => {})
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
+    const token = localStorage.getItem("token");
+    axios
+      .post(`${configs.BACKEND_URL}/stats/`, postData, {
+        headers: { token },
+      })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
 
   return (
@@ -44,7 +50,26 @@ const TestEnded = ({ speed, data, postData, guest }) => {
         alignItems: "center",
       }}
     >
-      <h1 style={{ textAlign: "center" }}>Typing test Ended</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "0.5rem" }}>
+        Typing test Ended
+      </h1>
+      {ismultiplayer ? (
+        <Link
+          to="/multiplayer"
+          style={{ color: "white", marginBottom: "1rem" }}
+        >
+          Generate new link
+        </Link>
+      ) : (
+        <button
+          className="main__button"
+          style={{ marginBottom: "1rem" }}
+          onClick={retryTest}
+        >
+          Retry Test
+        </button>
+      )}
+
       <Card>
         <h1 style={{ textAlign: "center", margin: "0" }}>WPM per second</h1>
         <LineChart

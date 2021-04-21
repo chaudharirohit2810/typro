@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../../components/Card";
+import { Form } from "react-bootstrap";
+import axios from "axios";
+import configs from "../../config";
+import { toast } from "react-toastify";
 
 const UserCard = ({ user }) => {
+  const [language, setLanguage] = useState(user.language);
+  const updateLang = () => {
+    axios
+      .put(
+        `${configs.BACKEND_URL}/user/lang/${language}`,
+        {},
+        { headers: { token: localStorage.getItem("token") } }
+      )
+      .then((res) => {
+        localStorage.setItem("lang", language);
+        toast.dark("Language updated successfully!");
+      })
+      .catch((err) => {
+        console.log(err.message);
+        toast.error("Something went wrong");
+      });
+  };
   return (
     <Card style={{ margin: "0px auto", width: "100%" }}>
       <div
@@ -17,9 +38,10 @@ const UserCard = ({ user }) => {
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            justifySelf: "start",
+            alignSelf: "start",
             marginRight: "2rem",
+            marginTop: "1.5rem",
             marginLeft: "2rem",
           }}
         >
@@ -34,7 +56,9 @@ const UserCard = ({ user }) => {
               backgroundColor: "#181b22",
             }}
           >
-            <h1 style={{ fontSize: "60px" }}>{user.name.substr(0, 1)}</h1>
+            <h1 style={{ fontSize: "60px" }}>
+              {user && user.name && user.name.substr(0, 1)}
+            </h1>
           </div>
         </div>
         <div style={{ flex: 3 }}>
@@ -48,6 +72,39 @@ const UserCard = ({ user }) => {
           <span>
             <b>Total tests</b>: {user.totaltests}
           </span>
+          {/* <Form.Group
+            controlId="name"
+            style={{
+              marginTop: "1rem",
+              marginBottom: "1rem",
+              width: "50%",
+              maxWidth: "400px",
+            }}
+          >
+            <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+              Change preferred language:{""}
+            </Form.Label>
+            <br></br>
+            <Form.Control
+              autoFocus
+              type="name"
+              as="select"
+              style={{ width: "70%" }}
+              className="main__input"
+              placeholder="Enter Name"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            >
+              <option style={{ color: "blue" }}>C</option>
+              <option style={{ color: "blue" }}>C++</option>
+              <option style={{ color: "blue" }}>Java</option>
+              <option style={{ color: "blue" }}>Python</option>
+              <option style={{ color: "blue" }}>Javascript</option>
+            </Form.Control>
+          </Form.Group>
+          <button className="main__button" onClick={updateLang}>
+            Update user
+          </button> */}
         </div>
       </div>
     </Card>

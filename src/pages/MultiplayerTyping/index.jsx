@@ -53,10 +53,12 @@ const MultiplayerTyping = (props) => {
         setloading(false);
       });
     return () => {
-      socket.emit("peer_left", {
-        username: localStorage.getItem("username"),
-        room_id: id,
-      });
+      if (socket) {
+        socket.emit("peer_left", {
+          username: localStorage.getItem("username"),
+          room_id: id,
+        });
+      }
     };
   }, []);
 

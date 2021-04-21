@@ -11,6 +11,8 @@ import DashboardStyle from "../Dashboard/dashboard.module.scss";
 import TypingLoader from "../../components/TypingLoader";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { Form } from "react-bootstrap";
 
 const MainTypingTester = ({
   ismultiplayer,
@@ -20,7 +22,7 @@ const MainTypingTester = ({
   guest,
   guestLanguage,
 }) => {
-  const testTime = 120;
+  const [testTime, setTestTime] = useState(60);
   const [speed, setspeed] = useState(0);
   const [loading, setloading] = useState(true);
   const [para, setPara] = useState("");
@@ -29,6 +31,7 @@ const MainTypingTester = ({
     countDownStarted,
     startCountDown,
     resetCountDown,
+    setRemainingTime,
   ] = useCountDown(testTime);
   const [typedIndex, setTypedIndex] = useState(0);
   const [correctIndex, setcorrectIndex] = useState(0);
@@ -36,12 +39,15 @@ const MainTypingTester = ({
   const [wrongTypes, setWrongTypes] = useState(0);
   const [pressedKey, _] = usePressedKey();
   const [speedData, setSpeedData] = useState([]);
+  const [reload, setreload] = useState(0);
   const his = useHistory();
 
   // const para =
   // "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
 
   useEffect(() => {
+    setloading(true);
+    console.log("Entered");
     if (ismultiplayer) {
       axios
         .get(`${configs.BACKEND_URL}/snippets/${codesnippetid}`)
@@ -58,11 +64,7 @@ const MainTypingTester = ({
         });
     } else {
       let lang = undefined;
-      if (guest) {
-        lang = guestLanguage;
-      } else {
-        lang = localStorage.getItem("lang");
-      }
+      lang = localStorage.getItem("lang");
       if (!lang) {
         his.replace("/");
       }
@@ -80,7 +82,7 @@ const MainTypingTester = ({
           setloading(false);
         });
     }
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     if (countDownStarted && correctIndex < para.length) {
@@ -193,11 +195,23 @@ const MainTypingTester = ({
         marginBottom: "2rem",
       }}
     >
+      {console.log({ remainingTime, correctIndex, len: para.length })}
       {remainingTime === 0 || correctIndex >= para.length ? (
         <>
           <TestEnded
             speed={speed}
             data={speedData}
+            retryTest={() => {
+              resetCountDown();
+              setspeed(0);
+              setAccuracy(100);
+              setTypedIndex(0);
+              setcorrectIndex(0);
+              setWrongTypes(0);
+              const temp = reload + 1;
+              setreload(temp);
+            }}
+            ismultiplayer={ismultiplayer}
             postData={{ speed, accuracy }}
             guest={guest}
           />
@@ -210,6 +224,32 @@ const MainTypingTester = ({
             flexDirection: "column",
           }}
         >
+          {!countDownStarted && !ismultiplayer && (
+            <div>
+              <Form.Group
+                size="lg"
+                controlId="password"
+                style={{ marginTop: "1rem" }}
+              >
+                <Form.Label style={{ fontSize: "19px", fontWeight: "bold" }}>
+                  Test time:{" "}
+                </Form.Label>
+                <br></br>
+                <Form.Control
+                  type="number"
+                  style={{ width: "100%", marginBottom: "1rem" }}
+                  value={testTime}
+                  className="main__input"
+                  min={1}
+                  placeholder="Enter test time"
+                  onChange={(e) => {
+                    setRemainingTime(e.target.value);
+                    setTestTime(parseInt(e.target.value));
+                  }}
+                />
+              </Form.Group>
+            </div>
+          )}
           <div style={{ margin: "0px auto 2rem" }}>
             <div
               onClick={() => startCountDown(true)}
@@ -222,24 +262,26 @@ const MainTypingTester = ({
               />
               Start Test
             </div>
-            <div
-              onClick={() => {
-                resetCountDown();
-                setspeed(0);
-                setAccuracy(100);
-                setTypedIndex(0);
-                setcorrectIndex(0);
-                setWrongTypes(0);
-              }}
-              className="main__button"
-              style={{ cursor: "pointer" }}
-            >
-              <FontAwesomeIcon
-                icon={faRedoAlt}
-                style={{ marginRight: "10px", fontSize: "18px" }}
-              />
-              Reset Test
-            </div>
+            {!ismultiplayer && (
+              <div
+                onClick={() => {
+                  resetCountDown();
+                  setspeed(0);
+                  setAccuracy(100);
+                  setTypedIndex(0);
+                  setcorrectIndex(0);
+                  setWrongTypes(0);
+                }}
+                className="main__button"
+                style={{ cursor: "pointer" }}
+              >
+                <FontAwesomeIcon
+                  icon={faRedoAlt}
+                  style={{ marginRight: "10px", fontSize: "18px" }}
+                />
+                Reset Test
+              </div>
+            )}
           </div>
           <Card>
             <div
@@ -278,6 +320,21 @@ const MainTypingTester = ({
         <Card className={Style.stats}>Speed: {speed} wpm</Card>
         <Card className={Style.stats}>Accuracy: {accuracy}%</Card>
       </div>
+      {remainingTime === 0 ||
+        (correctIndex >= para.length && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "1rem",
+            }}
+          >
+            <Link to="/" style={{ color: "white", marginBottom: "1rem" }}>
+              Go to homepage
+            </Link>
+          </div>
+        ))}
     </div>
   );
 };
