@@ -28,11 +28,13 @@ export default function AddSnippet() {
     }
     event.preventDefault();
     toastId.current = toast.dark("Adding snippet......", { autoClose: 10000 });
-    let temp = snippet.split("    ");
+    let temp = snippet.split("  ");
     let code = "";
     for (let str of temp) {
-      code += str;
-      code += "\t";
+      if (!str.startsWith("//")) {
+        code += str.trim();
+        code += "\t";
+      }
     }
     code = code.substr(0, code.length - 1);
     temp = code.split("\n");
