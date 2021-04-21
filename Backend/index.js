@@ -61,16 +61,16 @@ const checkRoomValid = (room_id) => {
 io.on("connection", (socket) => {
   let id = socket.id;
   socket.on("send_typing_score", (data) => {
-    const { token, ...mainData } = data;
-    io.to(mainData.room_id).emit("get_peer_typing_scores", mainData);
+    const { room_id, ...mainData } = data;
+    io.to(room_id).emit("get_peer_typing_scores", mainData);
   });
 
   socket.on("peer_added", (data) => {
     socket.join(data.room_id);
     if (sockets[id]) {
-      sockets[id].push({ token: data.token, room_id: data.room_id });
+      sockets[id].push({ room_id: data.room_id });
     } else {
-      sockets[id] = [{ token: data.token, room_id: data.room_id }];
+      sockets[id] = [{ room_id: data.room_id }];
     }
     if (timeouts[data.room_id]) {
       clearTimeout(timeouts[data.room_id]);
@@ -94,3 +94,5 @@ io.on("connection", (socket) => {
 http.listen(process.env.PORT || 5000, () => {
   console.log("Server is running on port " + process.env.PORT || 5000);
 });
+
+//

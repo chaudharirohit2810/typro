@@ -22,6 +22,10 @@ export default function AddSnippet() {
 
   function handleSubmit(event) {
     const token = localStorage.getItem("token");
+    if (snippet.length === 0 || url.length === 0) {
+      toast.error("Please enter all details");
+      return;
+    }
     event.preventDefault();
     toastId.current = toast.dark("Adding snippet......", { autoClose: 10000 });
     let temp = snippet.split("    ");
@@ -52,7 +56,6 @@ export default function AddSnippet() {
         }
       )
       .then((res) => {
-        console.log(res.data);
         toast.done(toastId.current);
         toast.dark("Code snippet added successfully");
         setSnippet("");

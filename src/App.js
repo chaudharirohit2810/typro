@@ -12,6 +12,7 @@ import {
   MultiplayerTyping,
   AppBar,
   Register,
+  Guest,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./ProtectedRoute";
@@ -27,6 +28,7 @@ function App() {
           <Route exact path="/register" component={Register} />
           <ProtectedRoute exact path="/" component={DashBoard} />
           <Route exact path="/typingtest" component={TypingTest} />
+          <Route exact path="/guest" component={Guest} />
           <ProtectedRoute exact path="/stats" component={Stats} />
           <ProtectedRoute exact path="/multiplayer" component={Multiplayer} />
           <ProtectedRoute

@@ -16,7 +16,6 @@ const Stats = () => {
   const [accuracyDomain, setAccuracyDomain] = useState([0, 0]);
 
   useEffect(() => {
-    console.log(new Date().toLocaleString());
     const token = localStorage.getItem("token");
     axios
       .get(`${configs.BACKEND_URL}/stats/`, { headers: { token } })

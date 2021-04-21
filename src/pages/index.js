@@ -9,3 +9,4 @@ export { default as AdminDashboard } from "./AdminDashboard";
 export { default as AddSnippet } from "./AddSnippet";
 export { default as AppBar } from "./AppBar";
 export { default as Register } from "./Register";
+export { default as Guest } from "./Guest";

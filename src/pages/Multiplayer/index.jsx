@@ -11,7 +11,8 @@ import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const Multiplayer = () => {
-  const frontend = "http://localhost:3000";
+  const frontend = "https://typro.rohitchaudhari.me";
+  // const frontend = "http://localhost:5000";
   const textAreaRef = React.useRef(null);
   const [loading, setloading] = useState(false);
   const [id, setid] = useState(undefined);
@@ -23,7 +24,6 @@ const Multiplayer = () => {
     axios
       .post(`${configs.BACKEND_URL}/room/`, { room_id, language })
       .then((res) => {
-        // console.log(res.data);
         setid(room_id);
         setcodeSnippetId(res.data);
       })

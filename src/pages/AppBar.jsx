@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 const AppBar = () => {
   const his = useHistory();
-  const logoutinvisibleRoutes = ["/login", "/admin", "/register"];
+  const logoutinvisibleRoutes = ["/login", "/admin", "/register", "/guest"];
   const adminRoutes = ["/admindashboard", "/addSnippet"];
   const [isLogoutVisible, setLogoutVisible] = useState(() => {
     return !logoutinvisibleRoutes.find(

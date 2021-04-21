@@ -4,7 +4,7 @@ import { LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import Card from "../../components/Card";
 import configs from "../../config";
 
-const TestEnded = ({ speed, data, postData }) => {
+const TestEnded = ({ speed, data, postData, guest }) => {
   const customTooltipOnYourLine = (e) => {
     if (e.active && e.payload != null && e.payload[0] != null) {
       return (
@@ -21,17 +21,17 @@ const TestEnded = ({ speed, data, postData }) => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .post(`${configs.BACKEND_URL}/stats/`, postData, {
-        headers: { token },
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    if (!guest) {
+      const token = localStorage.getItem("token");
+      axios
+        .post(`${configs.BACKEND_URL}/stats/`, postData, {
+          headers: { token },
+        })
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
   }, []);
 
   return (

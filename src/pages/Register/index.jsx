@@ -25,7 +25,6 @@ export default function Register() {
     return (
       username.length > 0 &&
       password.length > 0 &&
-      password === password2 &&
       name.length > 0 &&
       email.length > 0
     );
@@ -33,6 +32,23 @@ export default function Register() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (!validateForm()) {
+      toast.error("Please enter correct details");
+      return;
+    }
+    if (password !== password2) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    if (!/^[A-Za-z ]+$/.test(name)) {
+      toast.error("Name is invalid");
+      return;
+    }
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(String(email).toLowerCase())) {
+      toast.error("Invalid email address");
+      return;
+    }
     axios
       .post(`${config.BACKEND_URL}/user/register`, {
         username,
@@ -42,7 +58,6 @@ export default function Register() {
         language,
       })
       .then((res) => {
-        console.log(res);
         toast.dark("Successfully Registered! Redirecting to Login Page");
         his.replace("/login");
       })
@@ -193,7 +208,7 @@ export default function Register() {
               padding: "8px 10px",
               cursor: "pointer",
             }}
-            disabled={!validateForm()}
+            // disabled={!validateForm()}
             className="main__button"
           >
             Submit

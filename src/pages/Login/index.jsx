@@ -27,7 +27,6 @@ export default function Login() {
     axios
       .post(`${config.BACKEND_URL}/user/login`, { username, password })
       .then((res) => {
-        // console.log(res.data.user.username);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", res.data.user.username);
         localStorage.setItem("lang", res.data.user.language);
@@ -108,7 +107,7 @@ export default function Login() {
               padding: "8px 10px",
               cursor: "pointer",
             }}
-            disabled={!validateForm()}
+            // disabled={!validateForm()}
             className="main__button"
           >
             Login
@@ -127,6 +126,16 @@ export default function Login() {
           >
             Not a User? Register
           </Link>
+          {/* <Link
+            to="/guest"
+            style={{
+              display: "block",
+              marginTop: "1rem",
+              color: "var(--text-color)",
+            }}
+          >
+            Just want to try it out? Guest Login
+          </Link> */}
         </Form>
       </Card>
     </div>

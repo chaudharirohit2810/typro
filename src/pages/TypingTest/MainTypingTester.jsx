@@ -17,6 +17,8 @@ const MainTypingTester = ({
   socket,
   room_id,
   codesnippetid,
+  guest,
+  guestLanguage,
 }) => {
   const testTime = 120;
   const [speed, setspeed] = useState(0);
@@ -40,10 +42,6 @@ const MainTypingTester = ({
   // "export function push(heap: Heap, node: Node): void {↵\n\tconst index = heap.length;↵\n\theap.push(node);↵\n\tsiftUp(heap, node, index);↵\n}";
 
   useEffect(() => {
-    const lang = localStorage.getItem("lang");
-    if (!lang) {
-      his.replace("/");
-    }
     if (ismultiplayer) {
       axios
         .get(`${configs.BACKEND_URL}/snippets/${codesnippetid}`)
@@ -59,6 +57,15 @@ const MainTypingTester = ({
           setloading(false);
         });
     } else {
+      let lang = undefined;
+      if (guest) {
+        lang = guestLanguage;
+      } else {
+        lang = localStorage.getItem("lang");
+      }
+      if (!lang) {
+        his.replace("/");
+      }
       axios
         .get(`${configs.BACKEND_URL}/snippets/language/${lang}`)
         .then((res) => {
@@ -84,13 +91,13 @@ const MainTypingTester = ({
       const elapsedTime = testTime - remainingTime || 1;
       const wpm = Math.floor((correctIndex / 5 / elapsedTime) * 60);
       setspeed(wpm);
-      if (ismultiplayer) {
-        socket.emit("send_typing_score", {
+      if (room_id) {
+        const data = {
           speed: wpm,
           username: localStorage.getItem("username"),
-          token: localStorage.getItem("token"),
           room_id: room_id,
-        });
+        };
+        socket.emit("send_typing_score", data);
       }
     }
   }, [remainingTime]);
@@ -183,6 +190,7 @@ const MainTypingTester = ({
         display: "flex",
         flexDirection: "column",
         minWidth: "50rem",
+        marginBottom: "2rem",
       }}
     >
       {remainingTime === 0 || correctIndex >= para.length ? (
@@ -191,6 +199,7 @@ const MainTypingTester = ({
             speed={speed}
             data={speedData}
             postData={{ speed, accuracy }}
+            guest={guest}
           />
         </>
       ) : (

@@ -106,7 +106,7 @@ export default function AdminLogin() {
               padding: "8px 10px",
               cursor: "pointer",
             }}
-            disabled={!validateForm()}
+            // disabled={!validateForm()}
             className="main__button"
           >
             Admin
