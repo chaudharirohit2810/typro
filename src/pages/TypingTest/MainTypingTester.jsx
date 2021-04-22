@@ -22,7 +22,7 @@ const MainTypingTester = ({
   guest,
   guestLanguage,
 }) => {
-  const [testTime, setTestTime] = useState(60);
+  const [testTime, setTestTime] = useState(120);
   const [speed, setspeed] = useState(0);
   const [loading, setloading] = useState(true);
   const [para, setPara] = useState("");

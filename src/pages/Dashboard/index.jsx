@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import Style from "./dashboard.module.scss";
-import DashBoardCard from "./DashboardCard";
 import {
   faArrowRight,
-  faKeyboard,
-  faUserFriends,
   faChartLine,
+  faKeyboard,
   faTachometerAlt,
+  faUserFriends,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import config from "../../config";
-import TypingLoader from "../../components/TypingLoader";
+import React from "react";
+import Style from "./dashboard.module.scss";
+import DashBoardCard from "./DashboardCard";
 
 const Dashboard = () => {
   return (

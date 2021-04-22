@@ -1,27 +1,22 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Card from "../../components/Card";
-import { Link } from "react-router-dom";
-import "./Login.css";
+import { faArrowRight, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import config from "../../config";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useHistory } from "react-router-dom";
+import Card from "../../components/Card";
+import config from "../../config";
 
 export default function AddSnippet() {
   const [snippet, setSnippet] = useState("");
   const [language, setLangugae] = useState("C");
   const [url, setUrl] = useState("");
 
-  const his = useHistory();
   const toastId = React.useRef(null);
 
   function handleSubmit(event) {
-    const token = localStorage.getItem("token");
     if (snippet.length === 0 || url.length === 0) {
       toast.error("Please enter all details");
       return;
@@ -31,8 +26,9 @@ export default function AddSnippet() {
     let temp = snippet.split("  ");
     let code = "";
     for (let str of temp) {
-      if (!str.startsWith("//")) {
-        code += str.trim();
+      str = str.replace(/^ +| +$/gm, "");
+      if (!str.startsWith("//") && str.length > 0) {
+        code += str;
         code += "\t";
       }
     }

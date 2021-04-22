@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Style from "../Dashboard/dashboard.module.scss";
-import MultiplayerStyle from "./multiplayer.module.scss";
 import { faCopy, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { nanoid } from "nanoid";
 import axios from "axios";
-import configs from "../../config";
-import TypingLoader from "../../components/TypingLoader";
+import { nanoid } from "nanoid";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import TypingLoader from "../../components/TypingLoader";
+import configs from "../../config";
+import Style from "../Dashboard/dashboard.module.scss";
+import MultiplayerStyle from "./multiplayer.module.scss";
 
 const Multiplayer = () => {
   const frontend = "https://typro.rohitchaudhari.me";

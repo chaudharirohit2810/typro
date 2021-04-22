@@ -7,7 +7,12 @@ import { toast } from "react-toastify";
 
 const UserCard = ({ user }) => {
   const [language, setLanguage] = useState(user.language);
+  const toastId = React.useRef(null);
+
   const updateLang = () => {
+    toastId.current = toast.dark("Updating language......", {
+      autoClose: 10000,
+    });
     axios
       .put(
         `${configs.BACKEND_URL}/user/lang/${language}`,
@@ -15,11 +20,13 @@ const UserCard = ({ user }) => {
         { headers: { token: localStorage.getItem("token") } }
       )
       .then((res) => {
+        toast.dismiss(toastId.current);
         localStorage.setItem("lang", language);
         toast.dark("Language updated successfully!");
       })
       .catch((err) => {
         console.log(err.message);
+        toast.dismiss(toastId.current);
         toast.error("Something went wrong");
       });
   };
@@ -72,7 +79,7 @@ const UserCard = ({ user }) => {
           <span>
             <b>Total tests</b>: {user.totaltests}
           </span>
-          {/* <Form.Group
+          <Form.Group
             controlId="name"
             style={{
               marginTop: "1rem",
@@ -104,7 +111,7 @@ const UserCard = ({ user }) => {
           </Form.Group>
           <button className="main__button" onClick={updateLang}>
             Update user
-          </button> */}
+          </button>
         </div>
       </div>
     </Card>

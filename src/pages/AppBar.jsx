@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 const AppBar = () => {
   const his = useHistory();
@@ -27,7 +27,11 @@ const AppBar = () => {
         padding: "0.5rem 2rem",
       }}
     >
-      <h2 style={{ margin: "0px" }}>typro</h2>
+      <Link to="/">
+        <h2 style={{ margin: "0px", textDecoration: "none", color: "#fff" }}>
+          typro
+        </h2>
+      </Link>
       {isLogoutVisible && (
         <button
           style={{

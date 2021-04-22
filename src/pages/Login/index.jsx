@@ -1,29 +1,26 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Card from "../../components/Card";
-import { Link } from "react-router-dom";
-import "./Login.css";
+import { faArrowRight, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import config from "../../config";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useHistory } from "react-router-dom";
+import Card from "../../components/Card";
+import config from "../../config";
+import "./Login.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const toastId = React.useRef(null);
 
   const his = useHistory();
 
-  function validateForm() {
-    return username.length > 0 && password.length > 0;
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
+    toastId.current = toast.dark("Authenticating......", { autoClose: 10000 });
     axios
       .post(`${config.BACKEND_URL}/user/login`, { username, password })
       .then((res) => {
@@ -35,6 +32,9 @@ export default function Login() {
       })
       .catch((err) => {
         toast.error("Invalid username or password", { autoClose: 3000 });
+      })
+      .finally(() => {
+        toast.dismiss(toastId.current);
       });
   }
 

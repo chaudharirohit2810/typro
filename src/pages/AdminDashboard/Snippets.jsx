@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { faEraser, faMarker } from "@fortawesome/free-solid-svg-icons";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import TypingLoader from "../../components/TypingLoader";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Card from "../../components/Card";
+import TypingLoader from "../../components/TypingLoader";
 import configs from "../../config";
 import Style from "../Dashboard/dashboard.module.scss";
-import DashBoardCard from "../Dashboard/DashboardCard";
-import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [loading, setloading] = useState(true);
@@ -23,7 +22,7 @@ const Dashboard = () => {
         setsnippets((prev) => {
           let temp = [...prev];
           const index = temp.findIndex((item) => item._id === id);
-          if (index != -1) {
+          if (index !== -1) {
             temp.splice(index, 1);
           }
           return temp;

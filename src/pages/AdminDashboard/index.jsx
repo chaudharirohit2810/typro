@@ -1,19 +1,10 @@
 import { faKeyboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import TypingLoader from "../../components/TypingLoader";
-import Snippets from "./Snippets";
+import React from "react";
+import { Link } from "react-router-dom";
 import Style from "../Dashboard/dashboard.module.scss";
+import Snippets from "./Snippets";
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
-  const his = useHistory();
-  useEffect(() => {}, []);
-
-  if (loading) {
-    return <TypingLoader msg={"Authenticating your account..."} />;
-  }
-
   return (
     <div className={Style.container}>
       <FontAwesomeIcon icon={faKeyboard} size="5x" />

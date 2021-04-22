@@ -8,7 +8,7 @@ const usePressedKey = () => {
       if (pressedKey === e.key) {
         setPressedKey("");
       }
-      if (e.keyCode == 32 || e.key == "/") {
+      if (e.keyCode === 32 || e.key === "/" || e.key === "'") {
         e.preventDefault();
       }
       setPressedKey(e.key);

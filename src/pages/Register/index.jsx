@@ -5,11 +5,10 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Card from "../../components/Card";
 import config from "../../config";
-import "./Login.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -18,6 +17,8 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [language, setLanguage] = useState("C");
+
+  const toastId = React.useRef(null);
 
   const his = useHistory();
 
@@ -49,6 +50,7 @@ export default function Register() {
       toast.error("Invalid email address");
       return;
     }
+    toastId.current = toast.dark("Registering......", { autoClose: 10000 });
     axios
       .post(`${config.BACKEND_URL}/user/register`, {
         username,
@@ -65,6 +67,9 @@ export default function Register() {
         toast.error("Something went Wrong! Please try again", {
           autoClose: 3000,
         });
+      })
+      .finally(() => {
+        toast.done(toastId.current);
       });
   }
 
