@@ -1,8 +1,8 @@
 const User = require("../models/user");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const { authenticateToken } = require("../jwt");
 const mongoose = require("mongoose");
+const { authenticateToken } = require("../jwt");
 
 router.post("/login", async (req, res) => {
   try {
@@ -58,10 +58,12 @@ router.route("/lang/:language").put(authenticateToken, async (req, res) => {
   try {
     const id = req.user.id;
     const language = req.params.language;
-    const user = await User.findById(mongoose.Types.ObjectId(id));
-    user._doc["language"] = language;
-    const { _id, ...mainUser } = user._doc;
-    await User.findById(mongoose.Types.ObjectId(id), mainUser);
+    if (!id || !language) {
+      throw Error("Invalid id or language");
+    }
+    const user = await User.findByIdAndUpdate(mongoose.Types.ObjectId(id), {
+      $set: { language: language },
+    });
     res.status(200).send("Language updated");
   } catch (error) {
     console.log(error.message);

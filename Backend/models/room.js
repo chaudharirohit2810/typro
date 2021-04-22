@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const room = mongoose.Schema(
+const room = new mongoose.Schema(
   {
     room_id: {
       type: String,
@@ -9,6 +9,7 @@ const room = mongoose.Schema(
     users: {
       type: [String],
     },
+    expire_at: { type: Date, default: Date.now, expires: 7200 },
   },
   { timestamps: true }
 );
