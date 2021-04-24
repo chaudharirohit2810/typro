@@ -4,14 +4,16 @@ import axios from "axios";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Card from "../../components/Card";
+import TypingLoader from "../../components/TypingLoader";
 import config from "../../config";
 
 export default function AddSnippet() {
   const [snippet, setSnippet] = useState("");
   const [language, setLangugae] = useState("C");
+  const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
 
   const toastId = React.useRef(null);
@@ -22,7 +24,9 @@ export default function AddSnippet() {
       return;
     }
     event.preventDefault();
+    setLoading(true);
     toastId.current = toast.dark("Adding snippet......", { autoClose: 10000 });
+
     let temp = snippet.split("  ");
     let code = "";
     for (let str of temp) {
@@ -66,6 +70,9 @@ export default function AddSnippet() {
         toast.error("Something went wrong! Please try again", {
           autoClose: 3000,
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -79,13 +86,20 @@ export default function AddSnippet() {
         alignItems: "center",
       }}
     >
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+      />
       <Card
         style={{
           maxWidth: "40rem",
           width: "90vw",
           display: "flex",
           justifyContent: "center",
-          // alignItems: "center",
           flexDirection: "column",
         }}
       >
@@ -104,6 +118,7 @@ export default function AddSnippet() {
               as="textarea"
               rows="10"
               type="text"
+              title="snippet"
               style={{ width: "90%" }}
               className="main__input"
               placeholder="Place the code snippet here"
@@ -121,6 +136,7 @@ export default function AddSnippet() {
               style={{ width: "90%" }}
               value={language}
               className="main__input"
+              title="language_selector"
               placeholder="Select language"
               onChange={(e) => setLangugae(e.target.value)}
             >
@@ -141,6 +157,7 @@ export default function AddSnippet() {
               type="text"
               style={{ width: "90%" }}
               className="main__input"
+              title="url"
               placeholder="type the reference url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -148,6 +165,7 @@ export default function AddSnippet() {
           </Form.Group>
           <Button
             type="submit"
+            title="submit"
             style={{
               marginTop: "1.5rem",
               boxShadow: "none",
@@ -157,7 +175,7 @@ export default function AddSnippet() {
               padding: "8px 10px",
               cursor: "pointer",
             }}
-            // disabled={!validateForm()}
+            disabled={loading}
             className="main__button"
           >
             Add
