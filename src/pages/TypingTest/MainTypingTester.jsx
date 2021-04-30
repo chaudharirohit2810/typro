@@ -48,6 +48,9 @@ const MainTypingTester = ({
   useEffect(() => {
     setloading(true);
     if (ismultiplayer) {
+      if (!codesnippetid) {
+        his.replace("/");
+      }
       axios
         .get(`${configs.BACKEND_URL}/snippets/${codesnippetid}`)
         .then((res) => {
@@ -238,7 +241,8 @@ const MainTypingTester = ({
                   style={{ width: "100%", marginBottom: "1rem" }}
                   value={testTime}
                   className="main__input"
-                  min={1}
+                  min={60}
+                  max={240}
                   placeholder="Enter test time"
                   onChange={(e) => {
                     setRemainingTime(e.target.value);

@@ -9,6 +9,10 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 
   const verifyToken = async () => {
     var token = localStorage.getItem("token");
+    if (!token) {
+      setValidated(false);
+      return;
+    }
     await axios
       .get(configs.BACKEND_URL + "/user/verify", {
         headers: { token: token },

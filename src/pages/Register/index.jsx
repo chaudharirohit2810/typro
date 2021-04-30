@@ -1,13 +1,14 @@
 import { faArrowRight, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Card from "../../components/Card";
+import TypingLoader from "../../components/TypingLoader";
 import config from "../../config";
 
 export default function Register() {
@@ -17,39 +18,67 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [language, setLanguage] = useState("C");
+  const [loading, setloading] = useState(true);
 
   const toastId = React.useRef(null);
 
   const his = useHistory();
 
-  function validateForm() {
-    return (
-      username.length > 0 &&
-      password.length > 0 &&
-      name.length > 0 &&
-      email.length > 0
-    );
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (!validateForm()) {
-      toast.error("Please enter correct details");
+  useEffect(() => {
+    var token = localStorage.getItem("token");
+    if (!token) {
+      setloading(false);
       return;
+    }
+    axios
+      .get(config.BACKEND_URL + "/user/verify", {
+        headers: { token: token },
+      })
+      .then((response) => {
+        his.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setloading(false);
+      });
+  }, []);
+
+  function validateForm() {
+    if (
+      !(
+        username.length > 3 &&
+        username.length < 16 &&
+        password.length > 5 &&
+        password.length < 20 &&
+        name.length >= 6 &&
+        name.length <= 50 &&
+        email.length > 0
+      )
+    ) {
+      toast.error("Please enter correct details");
+      return false;
     }
     if (password !== password2) {
       toast.error("Passwords do not match");
-      return;
+      return false;
     }
     if (!/^[A-Za-z ]+$/.test(name)) {
       toast.error("Name is invalid");
-      return;
+      return false;
     }
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(String(email).toLowerCase())) {
       toast.error("Invalid email address");
-      return;
+      return false;
     }
+    return true;
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
     toastId.current = toast.dark("Registering......", { autoClose: 10000 });
     axios
       .post(`${config.BACKEND_URL}/user/register`, {
@@ -64,13 +93,28 @@ export default function Register() {
         his.replace("/login");
       })
       .catch((err) => {
-        toast.error("Something went Wrong! Please try again", {
+        toast.error("Username already exists! Please use different username", {
           autoClose: 3000,
         });
       })
       .finally(() => {
         toast.done(toastId.current);
       });
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
   }
 
   return (

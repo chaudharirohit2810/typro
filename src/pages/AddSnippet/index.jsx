@@ -18,12 +18,27 @@ export default function AddSnippet() {
 
   const toastId = React.useRef(null);
 
-  function handleSubmit(event) {
+  const validate = () => {
     if (snippet.length === 0 || url.length === 0) {
       toast.error("Please enter all details");
+      return false;
+    }
+    if (snippet.length < 50 || snippet.length > 400) {
+      toast.error("Snippet length should be between 50 to 400");
+      return false;
+    }
+    if (url.length > 50) {
+      toast.error("Url length should be between 0 to 50");
+      return false;
+    }
+    return true;
+  };
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (!validate()) {
       return;
     }
-    event.preventDefault();
     setLoading(true);
     toastId.current = toast.dark("Adding snippet......", { autoClose: 10000 });
 

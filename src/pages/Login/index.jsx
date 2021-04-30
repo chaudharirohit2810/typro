@@ -1,7 +1,7 @@
 import { faArrowRight, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useHistory } from "react-router-dom";
@@ -9,14 +9,37 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Card from "../../components/Card";
 import config from "../../config";
+import TypingLoader from "../../components/TypingLoader";
 import "./Login.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setloading] = useState(true);
   const toastId = React.useRef(null);
 
   const his = useHistory();
+
+  useEffect(() => {
+    var token = localStorage.getItem("token");
+    if (!token) {
+      setloading(false);
+      return;
+    }
+    axios
+      .get(config.BACKEND_URL + "/user/verify", {
+        headers: { token: token },
+      })
+      .then((response) => {
+        his.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setloading(false);
+      });
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -36,6 +59,21 @@ export default function Login() {
       .finally(() => {
         toast.dismiss(toastId.current);
       });
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TypingLoader msg={"Authenticating your account..."} />
+      </div>
+    );
   }
 
   return (

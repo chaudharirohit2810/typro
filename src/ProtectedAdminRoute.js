@@ -9,6 +9,10 @@ const ProtectedAdminRoute = ({ component: Component, ...rest }) => {
 
   const verifyToken = async () => {
     var token = localStorage.getItem("admintoken");
+    if (!token) {
+      setValidated(false);
+      return;
+    }
     await axios
       .get(configs.BACKEND_URL + "/admin/verify", {
         headers: { token: token },

@@ -29,15 +29,17 @@ const TestEnded = ({
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .post(`${configs.BACKEND_URL}/stats/`, postData, {
-        headers: { token },
-      })
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err.message);
-      });
+    if (!guest) {
+      const token = localStorage.getItem("token");
+      axios
+        .post(`${configs.BACKEND_URL}/stats/`, postData, {
+          headers: { token },
+        })
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
   }, []);
 
   return (

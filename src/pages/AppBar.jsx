@@ -12,9 +12,9 @@ const AppBar = () => {
   });
 
   his.listen((loc) => {
-    setLogoutVisible(
-      !logoutinvisibleRoutes.find((item) => item === loc.pathname)
-    );
+    if (localStorage.getItem("token") || localStorage.getItem("admintoken")) {
+      setLogoutVisible(true);
+    }
   });
   return (
     <div
