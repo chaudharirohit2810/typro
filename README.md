@@ -25,6 +25,8 @@
 
 TyPro provides a unique way to improve typing skills along with programming skills. It replaces general English paragraphs and poems used in existing typing tutors with open source code snippets. This will help end-users to improve their typing speeds, especially while programming.
 
+[Checkout the app](https://chaudharirohit2810.github.io/typro/)
+
 ## 🌟 Features
 
 - Code snippets instead of paragraphs
